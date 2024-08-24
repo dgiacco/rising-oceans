@@ -1,0 +1,25 @@
+.bubble {
+  position: absolute;
+  bottom: -100px; /* Start bubbles off screen */
+  background: radial-gradient(
+    circle at 25% 25%,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.1)
+  ); /* Gradient for a more bubble-like effect */
+  border-radius: 50%;
+  box-shadow: inset -4px -4px 10px rgba(255, 255, 255, 0.5),
+    inset 6px 6px 15px rgba(0, 0, 0, 0.3); /* Inner shadows for a more 3D effect */
+  opacity: 0.7;
+  animation: bubble-animation infinite linear;
+}
+
+@keyframes bubble-animation {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-1000px) scale(0.5);
+    opacity: 0;
+  }
+}

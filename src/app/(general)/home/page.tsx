@@ -1,10 +1,10 @@
-"use client";
+import OrgCardList from "@/components/OrgCardList";
 
 const page = () => {
   return (
-    <>
-      <h1 className="text-white">Home</h1>
-    </>
+    <div className="mt-10">
+      <OrgCardList cards={[{ title: "title", description: "description" }]} />
+    </div>
   );
 };
 

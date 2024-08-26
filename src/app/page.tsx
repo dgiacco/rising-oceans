@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
 import { redirect } from "../../node_modules/next/navigation";
 
@@ -12,7 +11,6 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasCheckedConnection, setHasCheckedConnection] = useState(false);
 
-  const router = useRouter();
   const { isConnected } = useAccount();
 
   useEffect(() => {

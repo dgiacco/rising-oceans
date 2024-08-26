@@ -1,49 +1,36 @@
 "use client";
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { redirect } from "next/navigation";
+import { useState, useEffect } from "react";
+import Header from "@/components/Header";
 
-const GeneralLayout = ({
+export default function GeneralLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => {
+}>) {
   const { isConnected } = useAccount();
-  const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!isConnected) {
-      router.push("/");
+      redirect("/");
+    } else {
+      setLoading(false);
     }
-  }, [isConnected, router]);
+  }, [isConnected]);
+
+  if (loading) {
+    return <></>;
+  }
 
   return (
-    <>
-      <nav
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "20px",
-          backgroundColor: "transparent",
-          position: "fixed",
-          width: "100%",
-          top: 0,
-          boxShadow: "0 4px 2px -2px gray",
-        }}
-      >
-        <div className="font-bold text-white">Rising oceans</div>
-
-        <div>
-          <ConnectButton />
-        </div>
-      </nav>
-
-      <div style={{ paddingTop: "80px" }}>{children}</div>
-    </>
+    <div>
+      <>
+        <Header />
+        <div>{children}</div>
+      </>
+    </div>
   );
-};
-
-export default GeneralLayout;
+}

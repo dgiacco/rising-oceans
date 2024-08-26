@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  overflow: hidden;
+}
+
 body.underwater {
-  /* position: relative; */
+  position: relative;
   height: 100vh;
   background: linear-gradient(to bottom, #003366, #000033);
   overflow: hidden;

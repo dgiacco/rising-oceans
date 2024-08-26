@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="underwater" style={{ overflow: "hidden" }}>
+      <body className="underwater">
         <Bubbles />
         <Providers>{children}</Providers>
       </body>

@@ -1,15 +1,9 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import ConnectCard from "@/components/ConnectCard";
 
 export default function Home() {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "flex-end",
-        padding: 12,
-      }}
-    >
-      <ConnectButton />
-    </div>
+    <main className="flex items-center justify-center min-h-screen">
+      <ConnectCard />
+    </main>
   );
 }

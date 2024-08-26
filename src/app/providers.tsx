@@ -3,11 +3,12 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import { ReactNode } from "react";
 
+import colors from "./styles/colors";
+
 import {
   getDefaultConfig,
   RainbowKitProvider,
   darkTheme,
-  Theme,
 } from "@rainbow-me/rainbowkit";
 import merge from "lodash.merge";
 import { WagmiProvider } from "wagmi";
@@ -30,12 +31,12 @@ const config = getDefaultConfig({
 const queryClient = new QueryClient();
 const myCustomTheme = merge(darkTheme(), {
   colors: {
-    modalBackground: "#005e79",
-    accentColor: "#6adbd8",
-    modalBorder: "#6adbd8",
+    modalBackground: colors.roTeal,
+    accentColor: colors.roAquaBlue,
+    modalBorder: colors.roAquaBlue,
     closeButton: "white",
-    closeButtonBackground: "#34918e",
-    accentColorForeground: "#005e79",
+    closeButtonBackground: colors.roSeaGreen,
+    accentColorForeground: colors.roTeal,
   },
   radii: {
     actionButton: "10px",

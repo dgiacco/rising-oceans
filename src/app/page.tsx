@@ -29,7 +29,11 @@ export default function Home() {
 
   return (
     <main className="flex items-center justify-center min-h-screen">
-      {isLoading && !hasCheckedConnection ? <WaveLoader /> : <ConnectCard />}
+      {isLoading && !hasCheckedConnection ? (
+        <WaveLoader />
+      ) : !isConnected ? (
+        <ConnectCard />
+      ) : null}
     </main>
   );
 }

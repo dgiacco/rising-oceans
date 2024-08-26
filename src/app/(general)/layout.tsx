@@ -3,6 +3,7 @@
 import { useAccount } from "wagmi";
 import { redirect } from "next/navigation";
 import { useState, useEffect } from "react";
+
 import Header from "@/components/Header";
 
 export default function GeneralLayout({
@@ -27,10 +28,8 @@ export default function GeneralLayout({
 
   return (
     <div>
-      <>
-        <Header />
-        <div>{children}</div>
-      </>
+      <Header />
+      <div>{children}</div>
     </div>
   );
 }

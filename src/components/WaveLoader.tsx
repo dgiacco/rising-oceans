@@ -13,13 +13,13 @@ const WaveLoader: React.FC = () => {
       paths.forEach((path, index) => {
         path.classList.add(styles.path);
         path.classList.add(styles[`path-${index + 1}`]);
-        path.style.animationDelay = `${index * 0.2}s`; // Adjust delay as needed
+        path.style.animationDelay = `${index * 0.2}s`;
       });
     }
   }, []);
 
   return (
-    <div className={styles["loader-container"]}>
+    <div className={`relative ${styles["loader-container"]}`}>
       <svg
         className={styles["wave-loader"]}
         xmlns="http://www.w3.org/2000/svg"

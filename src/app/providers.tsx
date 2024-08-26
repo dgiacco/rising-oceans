@@ -37,6 +37,9 @@ const myCustomTheme = merge(darkTheme(), {
     closeButton: "white",
     closeButtonBackground: colors.roSeaGreen,
     accentColorForeground: colors.roTeal,
+    profileAction: colors.roSeaGreen,
+    profileForeground: colors.roTeal,
+    connectButtonBackground: colors.roTeal,
   },
   radii: {
     actionButton: "10px",

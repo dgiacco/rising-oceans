@@ -1,12 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
+import { useRouter } from "next/navigation";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
+
 import WaveLoader from "./WaveLoader";
 
 const ConnectCard = () => {
   const [isLoading, setIsLoading] = useState(true);
+
+  const router = useRouter();
+  const { isConnected } = useAccount();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -15,6 +20,12 @@ const ConnectCard = () => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (isConnected) {
+      router.push("/home");
+    }
+  }, [isConnected]);
 
   return (
     <>

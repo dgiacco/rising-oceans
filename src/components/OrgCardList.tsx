@@ -11,7 +11,7 @@ interface OrgCardListProps {
 const OrgCardList: React.FC<OrgCardListProps> = ({ cards }) => {
   return (
     <>
-      <h2 className="relative text-center text-5xl font-bold text-roSeaGreen font-nunito">
+      <h2 className="relative text-center text-5xl font-bold text-roSeaGreen">
         Active campaigns
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">

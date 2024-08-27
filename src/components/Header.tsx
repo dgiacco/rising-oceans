@@ -23,11 +23,11 @@ const Header = () => {
     >
       <div className="flex items-center">
         <Image
-          src="/icon.png" // Replace with your icon path
+          src="/icon.png"
           alt="Logo"
-          width={50} // Adjust the width as needed
-          height={50} // Adjust the height as needed
-          className="mr-2" // Adds a right margin to the icon
+          width={50}
+          height={50}
+          className="mr-2"
         />
         <h1 className="hidden md:block font-bold text-roAquaBlue text-4xl">
           Rising 0ceans

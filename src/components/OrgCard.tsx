@@ -16,8 +16,9 @@ const OrgCard: React.FC<OrgCardProps> = ({ imageSrc, title, description }) => {
             className="object-cover"
             src={imageSrc}
             alt={title}
-            width={240}
-            height={240}
+            width={500}
+            height={500}
+            priority
           />
         </div>
 

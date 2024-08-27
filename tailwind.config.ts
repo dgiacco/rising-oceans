@@ -18,6 +18,10 @@ const config: Config = {
         roAquaBlue: "#6adbd8",
         roSeaGreen: "#34918e",
       },
+      fontFamily: {
+        poppins: ["var(--font-poppins)"],
+        quicksand: ["var(--font-quicksand)"],
+      },
     },
   },
   plugins: [],

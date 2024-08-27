@@ -29,7 +29,7 @@ const Header = () => {
           height={50} // Adjust the height as needed
           className="mr-2" // Adds a right margin to the icon
         />
-        <h1 className="hidden md:block font-bold text-roAquaBlue text-3xl">
+        <h1 className="hidden md:block font-bold text-roAquaBlue text-4xl font-quicksand">
           Rising 0ceans
         </h1>
       </div>

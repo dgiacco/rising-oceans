@@ -15,7 +15,7 @@ export function useCreateCampaign() {
   ) => {
     if (writeContract) {
       try {
-        const tx = await writeContract({
+        const tx = writeContract({
           address: contractAddress,
           abi: contractABI,
           functionName: "createCampaign",

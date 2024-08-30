@@ -1,6 +1,6 @@
 import OrgCardList from "@/components/OrgCardList";
 
-const page = () => {
+const HomePage = () => {
   const cards = [
     {
       title: "Save the turtles",
@@ -20,4 +20,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default HomePage;

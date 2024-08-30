@@ -12,6 +12,7 @@
     inset 6px 6px 15px rgba(0, 0, 0, 0.3); /* Inner shadows for a more 3D effect */
   opacity: 0.7;
   animation: bubble-animation infinite linear;
+  z-index: -1;
 }
 
 @keyframes bubble-animation {

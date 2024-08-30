@@ -14,4 +14,5 @@ const config = getDefaultConfig({
       "https://eth-sepolia.g.alchemy.com/v2/4BOdZL3Fx6cLWNFDrf6HelqxP_cClKY6"
     ),
   },
+  ssr: true,
 });

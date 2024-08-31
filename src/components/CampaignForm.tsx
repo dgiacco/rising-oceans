@@ -1,28 +1,49 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 import { useCreateCampaign } from "@/app/hooks/useCreateCampaign";
+
+type NewCampaign = {
+  title: string;
+  description: string;
+  target: string;
+  deadline: string;
+  image: string;
+};
 
 const CampaignForm = () => {
   const { address: owner } = useAccount();
   const { createCampaign } = useCreateCampaign();
 
-  const titleRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLTextAreaElement>(null);
-  const targetRef = useRef<HTMLInputElement>(null);
-  const deadlineRef = useRef<HTMLInputElement>(null);
-  const imageRef = useRef<HTMLSelectElement>(null);
+  const [newCampaign, setNewCampaign] = useState<NewCampaign>({
+    title: "",
+    description: "",
+    target: "",
+    deadline: "",
+    image: "turtle",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    setNewCampaign((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const title = titleRef.current?.value;
-    const description = descriptionRef.current?.value;
-    const target = targetRef.current?.value;
-    const deadline = deadlineRef.current?.value;
-    const image = imageRef.current?.value;
+    const title = newCampaign.title;
+    const description = newCampaign.description;
+    const target = newCampaign.target;
+    const deadline = newCampaign.deadline;
+    const image = newCampaign.image;
 
     if (!title || !description || !target || !deadline || !image) {
       console.error("Please fill all fields.");
@@ -65,7 +86,8 @@ const CampaignForm = () => {
           <input
             type="text"
             id="title"
-            ref={titleRef}
+            name="title"
+            onChange={handleChange}
             required
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           />
@@ -79,7 +101,8 @@ const CampaignForm = () => {
           </label>
           <textarea
             id="description"
-            ref={descriptionRef}
+            name="description"
+            onChange={handleChange}
             required
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           />
@@ -94,7 +117,8 @@ const CampaignForm = () => {
           <input
             type="number"
             id="target"
-            ref={targetRef}
+            name="target"
+            onChange={handleChange}
             required
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           />
@@ -109,7 +133,8 @@ const CampaignForm = () => {
           <input
             type="date"
             id="deadline"
-            ref={deadlineRef}
+            name="deadline"
+            onChange={handleChange}
             required
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           />
@@ -123,7 +148,8 @@ const CampaignForm = () => {
           </label>
           <select
             id="image"
-            ref={imageRef}
+            name="image"
+            onChange={handleChange}
             required
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           >

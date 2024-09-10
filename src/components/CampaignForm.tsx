@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 import { useCreateCampaign } from "@/app/hooks/useCreateCampaign";
+import Button from "./Button";
 
 type NewCampaign = {
   title: string;
@@ -72,15 +73,18 @@ const CampaignForm = () => {
     }
   };
 
+  const inputLabel = "text-roSeaGreen mt-2 text-center";
+  const formInput =
+    "mt-1 p-2 border border-2 border-roSeaGreen rounded-lg w-full text-roTeal font-bold";
+
   return (
-    <div className="max-w-md mx-auto mt-8 p-4 border border-gray-300 rounded shadow-md">
-      <h2 className="text-xl font-bold mb-4">Create a New Campaign</h2>
+    <div className="max-w-md mx-auto mt-8 p-4 border border-2 border-roAquaBlue rounded-lg bg-transparent backdrop-blur">
+      <h2 className="text-xl font-bold text-roAquaBlue text-center">
+        Create a New Campaign
+      </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="title" className={inputLabel}>
             Title
           </label>
           <input
@@ -89,14 +93,11 @@ const CampaignForm = () => {
             name="title"
             onChange={handleChange}
             required
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
+            className={formInput}
           />
         </div>
         <div className="mb-4">
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="description" className={inputLabel}>
             Description
           </label>
           <textarea
@@ -104,14 +105,11 @@ const CampaignForm = () => {
             name="description"
             onChange={handleChange}
             required
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
+            className={formInput}
           />
         </div>
         <div className="mb-4">
-          <label
-            htmlFor="target"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="target" className={inputLabel}>
             Target (ETH)
           </label>
           <input
@@ -120,14 +118,11 @@ const CampaignForm = () => {
             name="target"
             onChange={handleChange}
             required
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
+            className={formInput}
           />
         </div>
         <div className="mb-4">
-          <label
-            htmlFor="deadline"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="deadline" className={inputLabel}>
             Deadline
           </label>
           <input
@@ -136,14 +131,11 @@ const CampaignForm = () => {
             name="deadline"
             onChange={handleChange}
             required
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
+            className={formInput}
           />
         </div>
         <div className="mb-4">
-          <label
-            htmlFor="image"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="image" className={inputLabel}>
             Select Image
           </label>
           <select
@@ -151,18 +143,13 @@ const CampaignForm = () => {
             name="image"
             onChange={handleChange}
             required
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
+            className={formInput}
           >
             <option value="turtle">Turtle</option>
             <option value="coral">Coral</option>
           </select>
         </div>
-        <button
-          type="submit"
-          className="mt-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600 w-full"
-        >
-          Create Campaign
-        </button>
+        <Button label="Create Campaign" type="submit" />
       </form>
     </div>
   );

@@ -19,6 +19,8 @@ const OrgCardList = () => {
 
   if (isError) return <div>Error loading campaigns.</div>;
 
+  console.log(campaigns);
+
   //temporary fix for the campaign created without the form
   const validCampaigns = campaigns?.filter((campaign: Campaign) =>
     acceptedImages.includes(campaign.image)

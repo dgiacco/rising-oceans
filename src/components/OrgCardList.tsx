@@ -1,7 +1,6 @@
 "use client";
 
 import OrgCard from "./OrgCard";
-import { useRouter } from "next/navigation";
 import { useGetCampaigns } from "@/app/hooks/useGetCampaigns";
 import { Campaign } from "@/app/types/Campaign";
 
@@ -15,7 +14,6 @@ const acceptedImages = ["turtle", "coral"]; //temporary fix for the campaign cre
 
 const OrgCardList = () => {
   const { campaigns, isLoading, isError } = useGetCampaigns();
-  const router = useRouter();
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -26,8 +24,6 @@ const OrgCardList = () => {
     acceptedImages.includes(campaign.image)
   );
 
-  console.log(validCampaigns);
-
   const cards: Card[] =
     validCampaigns?.map((campaign: Campaign) => ({
       title: campaign.title,
@@ -35,21 +31,8 @@ const OrgCardList = () => {
       imageSrc: campaign.image,
     })) || [];
 
-  const goToForm = () => {
-    router.push("/create-campaign");
-  };
-
   return (
     <>
-      <h2 className="relative text-center text-5xl font-bold text-roSeaGreen">
-        Active campaigns
-      </h2>
-      <button
-        className="inline-flex items-center justify-center px-4 py-2 rounded-md font-bold bg-roAquaBlue text-roTeal"
-        onClick={goToForm}
-      >
-        +
-      </button>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
         {cards.map((card, index) => (
           <OrgCard

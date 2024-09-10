@@ -4,14 +4,12 @@
 
 html,
 body {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 body.underwater {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(to bottom, #003366, #000033);
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
+  overflow-y: auto;
 }

@@ -10,4 +10,5 @@ export type Campaign = {
   image: string;
   donators: string[];
   donations: ethers.BigNumberish[];
+  isActive?: boolean;
 };

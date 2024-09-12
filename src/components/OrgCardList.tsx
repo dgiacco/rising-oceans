@@ -1,7 +1,7 @@
 "use client";
 
+import { useGetActiveCampaigns } from "@/app/hooks/useGetActiveCampaigns";
 import OrgCard from "./OrgCard";
-import { useGetCampaigns } from "@/app/hooks/useGetCampaigns";
 import { Campaign } from "@/app/types/Campaign";
 
 type Card = {
@@ -13,21 +13,26 @@ type Card = {
 const acceptedImages = ["turtle", "coral"]; //temporary fix for the campaign created without the form
 
 const OrgCardList = () => {
-  const { campaigns, isLoading, isError } = useGetCampaigns();
+  const { campaigns, isLoading, isError } = useGetActiveCampaigns();
 
   if (isLoading) return <div>Loading...</div>;
 
   if (isError) return <div>Error loading campaigns.</div>;
-
-  console.log(campaigns);
 
   //temporary fix for the campaign created without the form
   const validCampaigns = campaigns?.filter((campaign: Campaign) =>
     acceptedImages.includes(campaign.image)
   );
 
+  console.log("valid", validCampaigns);
+
+  const activeCampaigns = validCampaigns?.map((campaign: Campaign) => ({
+    ...campaign,
+    isActive: campaign.deadline > Math.floor(Date.now() / 1000),
+  }));
+
   const cards: Card[] =
-    validCampaigns?.map((campaign: Campaign) => ({
+    activeCampaigns?.map((campaign: Campaign) => ({
       title: campaign.title,
       description: campaign.description,
       imageSrc: campaign.image,

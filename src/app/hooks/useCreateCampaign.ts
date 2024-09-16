@@ -1,4 +1,4 @@
-import { useWriteContract } from "wagmi";
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { ethers } from "ethers";
 import { contractABI, contractAddress } from "../utils/contractInfo";
 
@@ -27,7 +27,14 @@ export function useCreateCampaign() {
     }
   };
 
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
+
   return {
     createCampaign,
+    isConfirming,
+    isConfirmed,
   };
 }

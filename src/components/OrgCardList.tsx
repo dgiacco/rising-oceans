@@ -24,8 +24,6 @@ const OrgCardList = () => {
     acceptedImages.includes(campaign.image)
   );
 
-  console.log("valid", validCampaigns);
-
   const activeCampaigns = validCampaigns?.map((campaign: Campaign) => ({
     ...campaign,
     isActive: campaign.deadline > Math.floor(Date.now() / 1000),

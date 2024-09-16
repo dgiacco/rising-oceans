@@ -41,8 +41,6 @@ export function useGetActiveCampaigns() {
           }))
           .filter((campaign: Campaign) => campaign.isActive);
 
-        console.log("campaignsData", campaignsData);
-
         setCampaigns(campaignsData as Campaign[]);
       } catch (error) {
         console.error("Error fetching campaigns:", error);

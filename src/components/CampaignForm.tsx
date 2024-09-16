@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 import { useCreateCampaign } from "@/app/hooks/useCreateCampaign";
 import Button from "./Button";
+import TxModal from "./Modals/TxModal";
 
 type NewCampaign = {
   title: string;
@@ -16,7 +17,7 @@ type NewCampaign = {
 
 const CampaignForm = () => {
   const { address: owner } = useAccount();
-  const { createCampaign } = useCreateCampaign();
+  const { createCampaign, isConfirming, isConfirmed } = useCreateCampaign();
 
   const [newCampaign, setNewCampaign] = useState<NewCampaign>({
     title: "",
@@ -25,6 +26,12 @@ const CampaignForm = () => {
     deadline: "",
     image: "turtle",
   });
+
+  const [isTxPending, setIsTxPending] = useState(false);
+
+  useEffect(() => {
+    console.log("isTxPending changed: ", isTxPending);
+  }, [isTxPending]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -45,6 +52,8 @@ const CampaignForm = () => {
     const target = newCampaign.target;
     const deadline = newCampaign.deadline;
     const image = newCampaign.image;
+
+    setIsTxPending(true);
 
     if (!title || !description || !target || !deadline || !image) {
       console.error("Please fill all fields.");
@@ -78,80 +87,85 @@ const CampaignForm = () => {
     "mt-1 p-2 border border-2 border-roSeaGreen rounded-lg w-full text-roTeal font-bold";
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-4 border border-2 border-roAquaBlue rounded-lg bg-transparent backdrop-blur">
-      <h2 className="text-xl font-bold text-roAquaBlue text-center">
-        Create a New Campaign
-      </h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="title" className={inputLabel}>
-            Title
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            onChange={handleChange}
-            required
-            className={formInput}
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="description" className={inputLabel}>
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            onChange={handleChange}
-            required
-            className={formInput}
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="target" className={inputLabel}>
-            Target (ETH)
-          </label>
-          <input
-            type="number"
-            id="target"
-            name="target"
-            onChange={handleChange}
-            required
-            className={formInput}
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="deadline" className={inputLabel}>
-            Deadline
-          </label>
-          <input
-            type="date"
-            id="deadline"
-            name="deadline"
-            onChange={handleChange}
-            required
-            className={formInput}
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="image" className={inputLabel}>
-            Select Image
-          </label>
-          <select
-            id="image"
-            name="image"
-            onChange={handleChange}
-            required
-            className={formInput}
-          >
-            <option value="turtle">Turtle</option>
-            <option value="coral">Coral</option>
-          </select>
-        </div>
-        <Button label="Create Campaign" type="submit" />
-      </form>
-    </div>
+    <>
+      {isTxPending && <TxModal isOpen={isTxPending} />}
+      {isConfirming && <div>Waiting for confirmation...</div>}
+      {isConfirmed && <div>Transaction confirmed!</div>}
+      <div className="max-w-md mx-auto mt-8 p-4 border border-2 border-roAquaBlue rounded-lg bg-transparent backdrop-blur">
+        <h2 className="text-xl font-bold text-roAquaBlue text-center">
+          Create a New Campaign
+        </h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="title" className={inputLabel}>
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              onChange={handleChange}
+              required
+              className={formInput}
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="description" className={inputLabel}>
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              onChange={handleChange}
+              required
+              className={formInput}
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="target" className={inputLabel}>
+              Target (ETH)
+            </label>
+            <input
+              type="number"
+              id="target"
+              name="target"
+              onChange={handleChange}
+              required
+              className={formInput}
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="deadline" className={inputLabel}>
+              Deadline
+            </label>
+            <input
+              type="date"
+              id="deadline"
+              name="deadline"
+              onChange={handleChange}
+              required
+              className={formInput}
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="image" className={inputLabel}>
+              Select Image
+            </label>
+            <select
+              id="image"
+              name="image"
+              onChange={handleChange}
+              required
+              className={formInput}
+            >
+              <option value="turtle">Turtle</option>
+              <option value="coral">Coral</option>
+            </select>
+          </div>
+          <Button label="Create Campaign" type="submit" />
+        </form>
+      </div>
+    </>
   );
 };
 

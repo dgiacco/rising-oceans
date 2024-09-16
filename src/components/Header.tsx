@@ -1,8 +1,15 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
+
+  const goToHome = () => {
+    router.push("/home");
+  };
+
   return (
     <nav
       className="
@@ -29,8 +36,11 @@ const Header = () => {
           height={50}
           className="mr-2"
         />
-        <h1 className="hidden md:block font-bold text-roAquaBlue text-4xl">
-          Rising 0ceans
+        <h1
+          className="hidden md:block font-bold text-roAquaBlue text-4xl cursor-pointer"
+          onClick={goToHome}
+        >
+          Rising Oceans
         </h1>
       </div>
 

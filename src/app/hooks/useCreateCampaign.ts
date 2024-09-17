@@ -36,5 +36,6 @@ export function useCreateCampaign() {
     createCampaign,
     isConfirming,
     isConfirmed,
+    hash,
   };
 }

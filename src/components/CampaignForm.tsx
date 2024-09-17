@@ -17,7 +17,8 @@ type NewCampaign = {
 
 const CampaignForm = () => {
   const { address: owner } = useAccount();
-  const { createCampaign, isConfirming, isConfirmed } = useCreateCampaign();
+  const { createCampaign, isConfirming, isConfirmed, hash } =
+    useCreateCampaign();
 
   const [newCampaign, setNewCampaign] = useState<NewCampaign>({
     title: "",
@@ -28,10 +29,15 @@ const CampaignForm = () => {
   });
 
   const [isTxPending, setIsTxPending] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
-    console.log("isTxPending changed: ", isTxPending);
-  }, [isTxPending]);
+    setIsTxPending(isConfirming);
+  }, [isConfirming]);
+
+  useEffect(() => {
+    setIsButtonDisabled(false);
+  }, [isConfirmed]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -46,14 +52,15 @@ const CampaignForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(isButtonDisabled);
+
+    setIsButtonDisabled(true);
 
     const title = newCampaign.title;
     const description = newCampaign.description;
     const target = newCampaign.target;
     const deadline = newCampaign.deadline;
     const image = newCampaign.image;
-
-    setIsTxPending(true);
 
     if (!title || !description || !target || !deadline || !image) {
       console.error("Please fill all fields.");
@@ -88,7 +95,7 @@ const CampaignForm = () => {
 
   return (
     <>
-      {isTxPending && <TxModal isOpen={isTxPending} />}
+      <TxModal isOpen={isTxPending} />
       {isConfirming && <div>Waiting for confirmation...</div>}
       {isConfirmed && <div>Transaction confirmed!</div>}
       <div className="max-w-md mx-auto mt-8 p-4 border border-2 border-roAquaBlue rounded-lg bg-transparent backdrop-blur">
@@ -162,7 +169,11 @@ const CampaignForm = () => {
               <option value="coral">Coral</option>
             </select>
           </div>
-          <Button label="Create Campaign" type="submit" />
+          <Button
+            label="Create Campaign"
+            type="submit"
+            disabled={isButtonDisabled}
+          />
         </form>
       </div>
     </>

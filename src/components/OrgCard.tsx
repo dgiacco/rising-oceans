@@ -29,7 +29,7 @@ const OrgCard: React.FC<OrgCardProps> = ({ imageSrc, title, description }) => {
         </h1>
         <p className="text-roSeaGreen mt-2 text-center">{description}</p>
         <div className="mt-auto">
-          <Button label="View more" />
+          <Button label="View more" variant="primary" />
         </div>
       </div>
     </div>

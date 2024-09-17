@@ -1,7 +1,7 @@
-interface TxModalProps {
+type TxModalProps = {
   isOpen: boolean;
   closeModal?: () => void;
-}
+};
 
 const TxModal: React.FC<TxModalProps> = ({ isOpen, closeModal }) => {
   if (!isOpen) return null;

@@ -6,6 +6,7 @@ import { ethers } from "ethers";
 import { useCreateCampaign } from "@/app/hooks/useCreateCampaign";
 import Button from "./Button";
 import TxModal from "./Modals/TxModal";
+import SuccessModal from "./Modals/SuccessModal";
 
 type NewCampaign = {
   title: string;
@@ -28,8 +29,9 @@ const CampaignForm = () => {
     image: "turtle",
   });
 
-  const [isTxPending, setIsTxPending] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isTxPending, setIsTxPending] = useState(false);
+  const [isTxConfirmed, setIsTxConfirmed] = useState(false);
 
   useEffect(() => {
     setIsTxPending(isConfirming);
@@ -37,6 +39,10 @@ const CampaignForm = () => {
 
   useEffect(() => {
     setIsButtonDisabled(false);
+  }, [isConfirmed]);
+
+  useEffect(() => {
+    setIsTxConfirmed(isConfirmed);
   }, [isConfirmed]);
 
   const handleChange = (
@@ -52,7 +58,6 @@ const CampaignForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(isButtonDisabled);
 
     setIsButtonDisabled(true);
 
@@ -95,9 +100,14 @@ const CampaignForm = () => {
 
   return (
     <>
+      <SuccessModal
+        isOpen={isTxConfirmed}
+        title="Campaign created!"
+        message="Your campaign was created succesfully. You can view the details on Etherscan"
+        txHash={hash}
+        closeModal={() => setIsTxConfirmed(false)}
+      />
       <TxModal isOpen={isTxPending} />
-      {isConfirming && <div>Waiting for confirmation...</div>}
-      {isConfirmed && <div>Transaction confirmed!</div>}
       <div className="max-w-md mx-auto mt-8 p-4 border border-2 border-roAquaBlue rounded-lg bg-transparent backdrop-blur">
         <h2 className="text-xl font-bold text-roAquaBlue text-center">
           Create a New Campaign
@@ -173,6 +183,7 @@ const CampaignForm = () => {
             label="Create Campaign"
             type="submit"
             disabled={isButtonDisabled}
+            variant="primary"
           />
         </form>
       </div>

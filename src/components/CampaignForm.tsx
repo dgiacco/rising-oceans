@@ -21,13 +21,16 @@ const CampaignForm = () => {
   const { createCampaign, isConfirming, isConfirmed, hash } =
     useCreateCampaign();
 
-  const [newCampaign, setNewCampaign] = useState<NewCampaign>({
+  const initialCampaignState = {
     title: "",
     description: "",
     target: "",
     deadline: "",
     image: "turtle",
-  });
+  };
+
+  const [newCampaign, setNewCampaign] =
+    useState<NewCampaign>(initialCampaignState);
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [isTxPending, setIsTxPending] = useState(false);
@@ -54,6 +57,10 @@ const CampaignForm = () => {
       ...prev,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  const resetForm = () => {
+    setNewCampaign(initialCampaignState);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -89,6 +96,7 @@ const CampaignForm = () => {
           image
         );
       }
+      resetForm();
     } catch (error) {
       console.error("Error creating campaing", error);
     }
@@ -121,6 +129,7 @@ const CampaignForm = () => {
               type="text"
               id="title"
               name="title"
+              value={newCampaign.title}
               onChange={handleChange}
               required
               className={formInput}
@@ -133,6 +142,7 @@ const CampaignForm = () => {
             <textarea
               id="description"
               name="description"
+              value={newCampaign.description}
               onChange={handleChange}
               required
               className={formInput}
@@ -146,6 +156,7 @@ const CampaignForm = () => {
               type="number"
               id="target"
               name="target"
+              value={newCampaign.target}
               onChange={handleChange}
               required
               className={formInput}
@@ -159,6 +170,7 @@ const CampaignForm = () => {
               type="date"
               id="deadline"
               name="deadline"
+              value={newCampaign.deadline}
               onChange={handleChange}
               required
               className={formInput}
@@ -171,6 +183,7 @@ const CampaignForm = () => {
             <select
               id="image"
               name="image"
+              value={newCampaign.image}
               onChange={handleChange}
               required
               className={formInput}

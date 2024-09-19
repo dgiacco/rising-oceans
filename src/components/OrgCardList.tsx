@@ -3,6 +3,7 @@
 import { useGetActiveCampaigns } from "@/app/hooks/useGetActiveCampaigns";
 import OrgCard from "./OrgCard";
 import { Campaign } from "@/app/types/Campaign";
+import SpinnerLoader from "./SpinnerLoader";
 
 type Card = {
   title: string;
@@ -15,7 +16,7 @@ const acceptedImages = ["turtle", "coral"]; //temporary fix for the campaign cre
 const OrgCardList = () => {
   const { campaigns, isLoading, isError } = useGetActiveCampaigns();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <SpinnerLoader />;
 
   if (isError) return <div>Error loading campaigns.</div>;
 

@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { useState, useEffect } from "react";
 
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function GeneralLayout({
   children,
@@ -27,9 +28,10 @@ export default function GeneralLayout({
   }
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <div>{children}</div>
+      <div className="flex-grow">{children}</div>
+      <Footer />
     </div>
   );
 }

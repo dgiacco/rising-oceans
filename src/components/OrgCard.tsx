@@ -1,14 +1,28 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 import Button from "./Button";
 
 interface OrgCardProps {
+  id: string;
   imageSrc: string;
   title: string;
   description: string;
 }
 
-const OrgCard: React.FC<OrgCardProps> = ({ imageSrc, title, description }) => {
+const OrgCard: React.FC<OrgCardProps> = ({
+  id,
+  imageSrc,
+  title,
+  description,
+}) => {
+  const router = useRouter();
+
   const cardImg = imageSrc === "turtle" ? "/turtle-img.png" : "/coral-img.png";
+
+  const handleViewCampaign = () => {
+    router.push(`/${id}`);
+  };
 
   return (
     <div className="mx-auto bg-transparent border border-2 border-roAquaBlue rounded-lg backdrop-blur w-72 h-[28rem] flex flex-col justify-between">
@@ -29,7 +43,11 @@ const OrgCard: React.FC<OrgCardProps> = ({ imageSrc, title, description }) => {
         </h1>
         <p className="text-roSeaGreen mt-2 text-center">{description}</p>
         <div className="mt-auto">
-          <Button label="View more" variant="primary" />
+          <Button
+            label="View more"
+            variant="primary"
+            onClick={handleViewCampaign}
+          />
         </div>
       </div>
     </div>

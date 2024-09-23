@@ -1,11 +1,14 @@
 "use client";
 
+import { v4 as uuidv4 } from "uuid";
+
 import { useGetActiveCampaigns } from "@/app/hooks/useGetActiveCampaigns";
 import OrgCard from "./OrgCard";
 import { Campaign } from "@/app/types/Campaign";
 import SpinnerLoader from "./SpinnerLoader";
 
 type Card = {
+  id: string;
   title: string;
   description: string;
   imageSrc: string;
@@ -32,6 +35,7 @@ const OrgCardList = () => {
 
   const cards: Card[] =
     activeCampaigns?.map((campaign: Campaign) => ({
+      id: uuidv4(),
       title: campaign.title,
       description: campaign.description,
       imageSrc: campaign.image,
@@ -40,9 +44,10 @@ const OrgCardList = () => {
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-        {cards.map((card, index) => (
+        {cards.map((card) => (
           <OrgCard
-            key={index}
+            key={card.id}
+            id={card.id}
             imageSrc={card.imageSrc}
             title={card.title}
             description={card.description}

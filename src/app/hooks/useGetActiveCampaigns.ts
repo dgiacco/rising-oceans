@@ -26,7 +26,8 @@ export function useGetActiveCampaigns() {
         const data = await contract.getCampaigns();
 
         const campaignsData = data
-          .map((campaign: any) => ({
+          .map((campaign: any, index: number) => ({
+            id: index,
             owner: campaign[0],
             title: campaign[1],
             description: campaign[2],

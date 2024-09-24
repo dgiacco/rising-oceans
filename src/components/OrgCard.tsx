@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Button from "./Button";
 
 interface OrgCardProps {
-  id: string;
+  id: number;
   imageSrc: string;
   title: string;
   description: string;

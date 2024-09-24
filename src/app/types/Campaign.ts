@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 
 export type Campaign = {
+  id: number;
   owner: string;
   title: string;
   description: string;

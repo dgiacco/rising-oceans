@@ -2,21 +2,31 @@
 
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import { ethers } from "ethers";
 
 import { useGetActiveCampaigns } from "@/app/hooks/useGetActiveCampaigns";
 import Button from "@/components/Button";
+import SpinnerLoader from "@/components/SpinnerLoader";
 
 const CampaignPage = () => {
   const { id } = useParams();
 
   const { campaigns, isLoading, isError } = useGetActiveCampaigns();
 
+  if (isLoading) return <SpinnerLoader />;
+
+  if (isError) return <div>Error loading campaign.</div>;
+
   const campaign = campaigns?.find((c) => c.id === Number(id));
 
   const campaignImg =
     campaign?.image === "turtle" ? "/turtle-img.png" : "/coral-img.png";
 
-  if (!campaign) return <div className="text-white">Campaign not found.</div>;
+  const weiTargetAmount = campaign?.target?.toString() ?? "0";
+
+  const ethTargetAmount = ethers.formatEther(weiTargetAmount);
+
+  if (!campaign) return <></>;
 
   return (
     <div className="max-w-5xl mx-auto p-6 text-white">
@@ -32,14 +42,14 @@ const CampaignPage = () => {
           />
         </div>
         <div>
-          <h1 className="text-3xl font-bold text-roAquaBlue">
+          <h1 className="text-4xl font-bold text-roAquaBlue">
             {campaign.title}
           </h1>
           <p className="text-lg mt-2">{campaign.description}</p>
 
           <div className="mt-4">
             <h2 className="text-lg font-bold">Target Amount</h2>
-            <p>{campaign.target} ETH</p>
+            <p>{ethTargetAmount} ETH</p>
           </div>
 
           <div className="mt-4">

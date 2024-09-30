@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
+import { useRouter } from "next/navigation";
+
 import { useCreateCampaign } from "@/app/hooks/useCreateCampaign";
 import Button from "./Button";
 import TxModal from "./Modals/TxModal";
@@ -35,6 +37,8 @@ const CampaignForm = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [isTxPending, setIsTxPending] = useState(false);
   const [isTxConfirmed, setIsTxConfirmed] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     setIsTxPending(isConfirming);
@@ -106,6 +110,11 @@ const CampaignForm = () => {
   const formInput =
     "mt-1 p-2 border border-2 border-roSeaGreen rounded-lg w-full text-roTeal font-bold";
 
+  const handleCloseModal = () => {
+    setIsTxConfirmed(false);
+    router.push("/home");
+  };
+
   return (
     <>
       <SuccessModal
@@ -113,7 +122,7 @@ const CampaignForm = () => {
         title="Campaign created!"
         message="Your campaign was created succesfully. You can view the details on Etherscan"
         txHash={hash}
-        closeModal={() => setIsTxConfirmed(false)}
+        closeModal={() => handleCloseModal()}
       />
       <TxModal isOpen={isTxPending} />
       <div className="max-w-md mx-auto mt-8 p-4 border border-2 border-roAquaBlue rounded-lg bg-transparent backdrop-blur">

@@ -27,8 +27,10 @@ const CampaignPage = () => {
     campaign?.image === "turtle" ? "/turtle-img.png" : "/coral-img.png";
 
   const weiTargetAmount = campaign?.target?.toString() ?? "0";
+  const weiCollectedAmount = campaign?.amountCollected?.toString() ?? "0";
 
   const ethTargetAmount = ethers.formatEther(weiTargetAmount);
+  const ethCollectedAmount = ethers.formatEther(weiCollectedAmount);
 
   const hanldeModal = () => {
     setIsModalOpen(true);
@@ -41,6 +43,7 @@ const CampaignPage = () => {
       <DonationModal
         isOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
+        id={id}
       />
       <div className="max-w-5xl mx-auto p-6 text-white">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -67,7 +70,7 @@ const CampaignPage = () => {
 
             <div className="mt-4">
               <h2 className="text-lg font-bold">Amount Collected</h2>
-              <p>{campaign.amountCollected} ETH</p>
+              <p>{ethCollectedAmount} ETH</p>
             </div>
 
             <div className="my-4">

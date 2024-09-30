@@ -28,14 +28,7 @@ const OrgCard: React.FC<OrgCardProps> = ({
     <div className="mx-auto bg-transparent border border-2 border-roAquaBlue rounded-lg backdrop-blur w-72 h-[28rem] flex flex-col justify-between">
       <div className="flex flex-col items-center p-4 h-full justify-between">
         <div className="w-60 h-60 mb-4 rounded-t-lg">
-          <Image
-            className="object-cover"
-            src={cardImg}
-            alt={title}
-            width={500}
-            height={500}
-            priority
-          />
+          <Image src={cardImg} alt={title} width={500} height={500} priority />
         </div>
 
         <h1 className="text-xl font-bold text-roAquaBlue text-center">

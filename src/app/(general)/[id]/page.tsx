@@ -32,7 +32,7 @@ const CampaignPage = () => {
   const ethTargetAmount = ethers.formatEther(weiTargetAmount);
   const ethCollectedAmount = ethers.formatEther(weiCollectedAmount);
 
-  const hanldeModal = () => {
+  const handleModal = () => {
     setIsModalOpen(true);
   };
 
@@ -52,9 +52,8 @@ const CampaignPage = () => {
               src={campaignImg}
               alt={campaign.title}
               width={500}
-              height={300}
-              layout="responsive"
-              className="object-cover"
+              height={500}
+              priority
             />
           </div>
           <div>
@@ -80,7 +79,7 @@ const CampaignPage = () => {
             <Button
               label="Donate Now"
               variant="primary"
-              onClick={hanldeModal}
+              onClick={handleModal}
             />
           </div>
         </div>

@@ -125,7 +125,7 @@ const CampaignForm = () => {
         closeModal={() => handleCloseModal()}
       />
       <TxModal isOpen={isTxPending} />
-      <div className="max-w-md mx-auto mt-8 p-4 border border-2 border-roAquaBlue rounded-lg bg-transparent backdrop-blur">
+      <div className="max-w-md mx-auto my-8 p-4 border border-2 border-roAquaBlue rounded-lg bg-transparent backdrop-blur">
         <h2 className="text-xl font-bold text-roAquaBlue text-center">
           Create a New Campaign
         </h2>

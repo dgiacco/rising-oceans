@@ -1,6 +1,5 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
-import React from "react";
 import { useRouter } from "next/navigation";
 
 const Header = () => {

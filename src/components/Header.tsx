@@ -27,7 +27,7 @@ const Header = () => {
         backdrop-blur
       "
     >
-      <div className="flex items-center">
+      <div className="flex items-center cursor-pointer" onClick={goToHome}>
         <Image
           src="/icon.png"
           alt="Logo"
@@ -35,10 +35,7 @@ const Header = () => {
           height={50}
           className="mr-2"
         />
-        <h1
-          className="hidden md:block font-bold text-roAquaBlue text-4xl cursor-pointer"
-          onClick={goToHome}
-        >
+        <h1 className="hidden md:block font-bold text-roAquaBlue text-4xl">
           Rising Oceans
         </h1>
       </div>

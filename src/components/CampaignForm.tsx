@@ -20,7 +20,7 @@ type NewCampaign = {
 
 const CampaignForm = () => {
   const { address: owner } = useAccount();
-  const { createCampaign, isConfirming, isConfirmed, hash } =
+  const { createCampaign, isConfirming, isConfirmed, isRejected, hash } =
     useCreateCampaign();
 
   const initialCampaignState = {
@@ -45,12 +45,22 @@ const CampaignForm = () => {
   }, [isConfirming]);
 
   useEffect(() => {
-    setIsButtonDisabled(false);
+    if (isConfirmed) {
+      setIsButtonDisabled(false);
+      setIsTxConfirmed(true);
+    }
   }, [isConfirmed]);
 
   useEffect(() => {
     setIsTxConfirmed(isConfirmed);
   }, [isConfirmed]);
+
+  useEffect(() => {
+    if (isRejected) {
+      setIsButtonDisabled(false);
+      setIsTxPending(false);
+    }
+  }, [isRejected]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -103,6 +113,7 @@ const CampaignForm = () => {
       resetForm();
     } catch (error) {
       console.error("Error creating campaing", error);
+      setIsButtonDisabled(false);
     }
   };
 

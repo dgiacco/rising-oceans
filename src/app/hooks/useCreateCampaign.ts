@@ -1,9 +1,26 @@
+"use client";
+
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { ethers } from "ethers";
 import { contractABI, contractAddress } from "../utils/contractInfo";
+import { useEffect, useState } from "react";
+import { BaseError } from "viem";
 
 export function useCreateCampaign() {
-  const { data: hash, writeContract } = useWriteContract();
+  const { data: hash, writeContract, error: writeError } = useWriteContract();
+  const [isRejected, setIsRejected] = useState(false);
+
+  useEffect(() => {
+    if (writeError && writeError instanceof BaseError) {
+      console.log("Full error object:", writeError);
+
+      // Check for user rejection in the error
+      if (writeError.shortMessage?.includes("User rejected the request")) {
+        console.log("Transaction was rejected by user");
+        setIsRejected(true);
+      }
+    }
+  }, [writeError]);
 
   const createCampaign = async (
     _owner: string,
@@ -15,6 +32,7 @@ export function useCreateCampaign() {
   ) => {
     if (writeContract) {
       try {
+        setIsRejected(false);
         const tx = writeContract({
           address: contractAddress,
           abi: contractABI,
@@ -23,6 +41,8 @@ export function useCreateCampaign() {
         });
       } catch (err) {
         console.error("Transaction failed:", err);
+        setIsRejected(true);
+        throw err;
       }
     }
   };
@@ -36,6 +56,7 @@ export function useCreateCampaign() {
     createCampaign,
     isConfirming,
     isConfirmed,
+    isRejected,
     hash,
   };
 }

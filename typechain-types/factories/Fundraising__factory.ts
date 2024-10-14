@@ -9,7 +9,7 @@ import {
 } from "ethers";
 import type { Signer, ContractDeployTransaction, ContractRunner } from "ethers";
 import type { NonPayableOverrides } from "../common";
-import type { Crowdfunding, CrowdfundingInterface } from "../Crowdfunding";
+import type { Crowdfunding, CrowdfundingInterface } from "../Fundraising";
 
 const _abi = [
   {

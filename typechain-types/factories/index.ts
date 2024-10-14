@@ -2,4 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as fundraisingSol from "./Fundraising.sol";
-export { Crowdfunding__factory } from "./Crowdfunding__factory";
+export { Crowdfunding__factory } from "./Fundraising__factory";

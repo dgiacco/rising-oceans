@@ -12,6 +12,7 @@ body.underwater {
   min-height: 100vh;
   background: linear-gradient(to bottom, #003366, #000033);
   overflow-y: auto;
+  background-attachment: fixed;
 }
 
 input[type="number"].no-arrows::-webkit-inner-spin-button,

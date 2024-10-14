@@ -17,7 +17,7 @@ const HomePage = () => {
           Active campaigns
         </h2>
         <button
-          className="inline-flex items-center justify-center px-4 py-2 rounded-md font-bold bg-roAquaBlue text-roTeal"
+          className="inline-flex items-center justify-center px-4 py-2 rounded-md font-bold bg-roAquaBlue text-roTeal hover:brightness-125"
           onClick={goToForm}
         >
           +

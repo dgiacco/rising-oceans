@@ -22,16 +22,15 @@ const DonationModal: React.FC<DonationModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
+  const router = useRouter();
+  const campaignId = Number(id);
+
   const [inputValue, setInputValue] = useState("");
   const [isValid, setIsValid] = useState(true);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [isTxPending, setIsTxPending] = useState(false);
   const [isTxSuccessful, setIsTxSuccessful] = useState(false);
   const [currentHash, setCurrentHash] = useState("");
-
-  const router = useRouter();
-
-  const campaignId = Number(id);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

@@ -2,7 +2,6 @@
 
 import { ethers } from "ethers";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { contractABI, contractAddress } from "@/app/utils/contractInfo";
 import Button from "../Button";
@@ -20,9 +19,6 @@ const DonationModal: React.FC<DonationModalProps> = ({
   closeModal,
   id,
 }) => {
-  if (!isOpen) return null;
-
-  const router = useRouter();
   const campaignId = Number(id);
 
   const [inputValue, setInputValue] = useState("");
@@ -31,6 +27,8 @@ const DonationModal: React.FC<DonationModalProps> = ({
   const [isTxPending, setIsTxPending] = useState(false);
   const [isTxSuccessful, setIsTxSuccessful] = useState(false);
   const [currentHash, setCurrentHash] = useState("");
+
+  if (!isOpen) return null;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

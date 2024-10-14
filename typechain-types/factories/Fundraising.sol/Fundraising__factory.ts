@@ -8,8 +8,8 @@ import {
   Interface,
 } from "ethers";
 import type { Signer, ContractDeployTransaction, ContractRunner } from "ethers";
-import type { NonPayableOverrides } from "../common";
-import type { Crowdfunding, CrowdfundingInterface } from "../Fundraising";
+import type { NonPayableOverrides } from "../../common";
+import type { Crowdfunding, CrowdfundingInterface } from "../../Fundraising";
 
 const _abi = [
   {

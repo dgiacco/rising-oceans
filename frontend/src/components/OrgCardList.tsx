@@ -17,7 +17,12 @@ const acceptedImages = ["turtle", "coral"]; //temporary fix for the campaign cre
 const OrgCardList = () => {
   const { campaigns, isLoading, isError } = useGetActiveCampaigns();
 
-  if (isLoading) return <SpinnerLoader />;
+  if (isLoading)
+    return (
+      <div className="pt-16">
+        <SpinnerLoader />
+      </div>
+    );
 
   if (isError) return <div>Error loading campaigns.</div>;
 

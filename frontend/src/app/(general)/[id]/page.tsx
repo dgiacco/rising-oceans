@@ -17,7 +17,12 @@ const CampaignPage = () => {
 
   const { campaigns, isLoading, isError } = useGetActiveCampaigns();
 
-  if (isLoading) return <SpinnerLoader />;
+  if (isLoading)
+    return (
+      <div className="pt-16">
+        <SpinnerLoader />
+      </div>
+    );
 
   if (isError) return <div>Error loading campaign.</div>;
 

@@ -6,6 +6,8 @@ type CommonButtonProps = {
   onClick?: () => void;
 };
 
+import { motion } from "framer-motion";
+
 const Button: React.FC<CommonButtonProps> = ({
   label,
   variant,
@@ -16,8 +18,8 @@ const Button: React.FC<CommonButtonProps> = ({
   const baseStyles =
     "inline-flex items-center justify-center px-4 py-2 rounded-md font-bold";
 
-  const primaryStyles = "bg-roAquaBlue text-roTeal hover:brightness-125";
-  const secondaryStyles = "bg-roTeal text-white hover:brightness-125";
+  const primaryStyles = "bg-roAquaBlue text-roTeal";
+  const secondaryStyles = "bg-roTeal text-white";
 
   const disabledStyles = "opacity-50 cursor-not-allowed";
 
@@ -26,14 +28,18 @@ const Button: React.FC<CommonButtonProps> = ({
   } ${disabled ? disabledStyles : ""}`;
 
   return (
-    <button
+    <motion.button
       className={buttonStyles}
       type={type}
       disabled={disabled}
       onClick={onClick}
+      whileHover={!disabled ? { scale: 1.05, filter: "brightness(1.25)" } : {}}
+      whileTap={!disabled ? { scale: 0.95 } : {}}
+      animate={!disabled ? { opacity: 1 } : { opacity: 0.5 }}
+      transition={{ type: "spring", stiffness: 400, damping: 10 }}
     >
       {label}
-    </button>
+    </motion.button>
   );
 };
 

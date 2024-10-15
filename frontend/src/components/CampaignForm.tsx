@@ -34,7 +34,7 @@ const CampaignForm = () => {
   const [newCampaign, setNewCampaign] =
     useState<NewCampaign>(initialCampaignState);
 
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isTxPending, setIsTxPending] = useState(false);
   const [isTxConfirmed, setIsTxConfirmed] = useState(false);
 
@@ -46,7 +46,7 @@ const CampaignForm = () => {
 
   useEffect(() => {
     if (isConfirmed) {
-      setIsButtonDisabled(false);
+      setIsButtonDisabled(true);
       setIsTxConfirmed(true);
     }
   }, [isConfirmed]);
@@ -57,10 +57,23 @@ const CampaignForm = () => {
 
   useEffect(() => {
     if (isRejected) {
-      setIsButtonDisabled(false);
+      setIsButtonDisabled(true);
       setIsTxPending(false);
     }
   }, [isRejected]);
+
+  useEffect(() => {
+    const isFormValid =
+      newCampaign.title.trim() !== "" &&
+      newCampaign.description.trim() !== "" &&
+      newCampaign.target.trim() !== "" &&
+      parseFloat(newCampaign.target) > 0 &&
+      newCampaign.deadline.trim() !== "" &&
+      new Date(newCampaign.deadline) > new Date() &&
+      newCampaign.image.trim() !== "";
+
+    setIsButtonDisabled(!isFormValid);
+  }, [newCampaign]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -182,6 +195,8 @@ const CampaignForm = () => {
               onChange={handleChange}
               required
               className={formInput}
+              min="0"
+              step="0.000000000000000001"
             />
           </div>
           <div className="mb-4">
@@ -196,6 +211,7 @@ const CampaignForm = () => {
               onChange={handleChange}
               required
               className={formInput}
+              min={new Date().toISOString().split("T")[0]}
             />
           </div>
           <div className="mb-4">

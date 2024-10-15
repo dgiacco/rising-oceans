@@ -2,8 +2,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
-import Button from "./Button";
-
 interface OrgCardProps {
   id: number;
   imageSrc: string;
@@ -20,8 +18,9 @@ const OrgCard: React.FC<OrgCardProps> = ({
   const router = useRouter();
 
   const cardImg = imageSrc === "turtle" ? "/turtle-img.png" : "/coral-img.png";
+  const isTurtle = imageSrc === "turtle";
 
-  const handleViewCampaign = () => {
+  const handleCardClick = () => {
     router.push(`/${id}`);
   };
 
@@ -32,15 +31,19 @@ const OrgCard: React.FC<OrgCardProps> = ({
 
   return (
     <motion.div
-      className="mx-auto bg-transparent border border-2 border-roAquaBlue rounded-lg backdrop-blur w-72 h-[28rem] flex flex-col justify-between relative overflow-hidden"
+      className="mx-auto bg-transparent border border-2 border-roAquaBlue rounded-lg backdrop-blur w-82 h-[24rem] flex flex-col justify-between relative overflow-hidden cursor-pointer"
+      style={{ width: "20.5rem" }} // This ensures a fixed width of 82 (20.5rem)
       whileHover={{
         scale: 1.05,
         transition: { duration: 0.3, ease: "easeInOut" },
       }}
+      onClick={handleCardClick}
     >
       <div className="flex flex-col items-center p-4 h-full justify-between z-10">
         <motion.div
-          className="w-60 h-60 mb-4 rounded-t-lg overflow-hidden"
+          className={`w-60 h-60 mb-4 rounded-t-lg overflow-hidden ${
+            isTurtle ? "flex items-center justify-center" : ""
+          }`}
           whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
         >
           <Image
@@ -49,28 +52,23 @@ const OrgCard: React.FC<OrgCardProps> = ({
             width={500}
             height={500}
             priority
-            className="w-full object-cover"
+            className={`${isTurtle ? "object-contain" : "w-full object-cover"}`}
           />
         </motion.div>
 
-        <motion.h1
-          className="text-xl font-bold text-roAquaBlue text-center"
-          whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
-        >
-          {truncateDescription(title, 60)}
-        </motion.h1>
-        <motion.p
-          className="text-roSeaGreen mt-2 text-center"
-          whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
-        >
-          {truncateDescription(description, 60)}
-        </motion.p>
-        <div className="mt-auto">
-          <Button
-            label="View more"
-            variant="primary"
-            onClick={handleViewCampaign}
-          />
+        <div className="mt-auto w-full">
+          <motion.h1
+            className="text-xl font-bold text-roAquaBlue text-center"
+            whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
+          >
+            {truncateDescription(title, 60)}
+          </motion.h1>
+          <motion.p
+            className="text-roSeaGreen mt-2 text-center"
+            whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
+          >
+            {truncateDescription(description, 60)}
+          </motion.p>
         </div>
       </div>
       <motion.div

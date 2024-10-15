@@ -31,10 +31,33 @@ const OrgCard: React.FC<OrgCardProps> = ({
     return text.slice(0, maxLength) + "...";
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 1,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  const contentVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1, delay: 0.3, ease: "easeOut" },
+    },
+  };
+
   return (
     <motion.div
       className="mx-auto bg-transparent border border-2 border-roAquaBlue rounded-lg backdrop-blur w-82 h-[24rem] flex flex-col justify-between relative overflow-hidden cursor-pointer"
       style={{ width: "20.5rem" }}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
       whileHover={{
         scale: 1.05,
         transition: { duration: 0.3, ease: "easeInOut" },
@@ -44,24 +67,10 @@ const OrgCard: React.FC<OrgCardProps> = ({
         transition: { duration: 0.1 },
       }}
       onClick={handleCardClick}
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -50 }}
-      transition={{
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        duration: 0.8,
-      }}
-      layout
     >
       <motion.div
         className="flex flex-col items-center p-4 h-full justify-between z-10"
-        whileTap={{
-          scale: 0.95,
-          rotateY: 180,
-          transition: { duration: 0.5, ease: "easeInOut" },
-        }}
+        variants={contentVariants}
       >
         <div
           className={`w-60 h-60 mb-4 rounded-t-lg overflow-hidden ${
@@ -81,17 +90,17 @@ const OrgCard: React.FC<OrgCardProps> = ({
         <div className="mt-auto w-full">
           <motion.h1
             className="text-xl font-bold text-roAquaBlue text-center"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
           >
             {truncateDescription(title, 60)}
           </motion.h1>
           <motion.p
             className="text-roSeaGreen mt-2 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
           >
             {truncateDescription(description, 60)}
           </motion.p>

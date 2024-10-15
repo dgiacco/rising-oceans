@@ -21,7 +21,10 @@ const OrgCard: React.FC<OrgCardProps> = ({
   const isTurtle = imageSrc === "turtle";
 
   const handleCardClick = () => {
-    router.push(`/${id}`);
+    // Add a slight delay before redirecting
+    setTimeout(() => {
+      router.push(`/${id}`);
+    }, 230); // 300ms delay, adjust as needed
   };
 
   const truncateDescription = (text: string, maxLength: number) => {
@@ -41,9 +44,7 @@ const OrgCard: React.FC<OrgCardProps> = ({
         scale: 0.95,
         transition: { duration: 0.1 },
       }}
-      onClick={() => {
-        handleCardClick();
-      }}
+      onClick={handleCardClick}
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -50 }}

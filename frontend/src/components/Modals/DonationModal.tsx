@@ -14,6 +14,8 @@ type DonationModalProps = {
   id: string | string[];
 };
 
+import { motion, AnimatePresence } from "framer-motion";
+
 const DonationModal: React.FC<DonationModalProps> = ({
   isOpen,
   closeModal,
@@ -27,8 +29,7 @@ const DonationModal: React.FC<DonationModalProps> = ({
   const [isTxPending, setIsTxPending] = useState(false);
   const [isTxSuccessful, setIsTxSuccessful] = useState(false);
   const [currentHash, setCurrentHash] = useState("");
-
-  if (!isOpen) return null;
+  const [isClosing, setIsClosing] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -92,11 +93,20 @@ const DonationModal: React.FC<DonationModalProps> = ({
   };
 
   const handleCloseModal = () => {
+    setIsClosing(true);
     setIsTxSuccessful(false);
+    setInputValue("");
+    setIsValid(false);
+    setIsButtonDisabled(true);
+    setIsClosing(false);
     if (closeModal) {
       closeModal();
     }
-    location.reload();
+  };
+
+  const handleSuccessModalClose = () => {
+    handleCloseModal();
+    window.location.reload();
   };
 
   return (
@@ -105,56 +115,70 @@ const DonationModal: React.FC<DonationModalProps> = ({
       <SuccessModal
         isOpen={isTxSuccessful}
         title="Donation sent!"
-        message="Your donation was sent succesfully. You can view the details on Etherscan"
+        message="Your donation was sent successfully. You can view the details on Etherscan"
         txHash={currentHash}
-        closeModal={() => handleCloseModal()}
+        closeModal={handleSuccessModalClose}
       />
-      {!isTxPending && !isTxSuccessful && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-          <div className="relative bg-sky-200 p-6 rounded-md shadow-lg max-w-sm text-center">
-            <button
-              className="absolute top-2 right-2 text-roTeal font-bold text-xl hover:text-roSeaGreen"
-              onClick={closeModal}
+      <AnimatePresence>
+        {!isTxPending && !isTxSuccessful && (isOpen || isClosing) && (
+          <motion.div
+            className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <motion.div
+              className="relative bg-sky-200 p-6 rounded-md shadow-lg max-w-sm text-center"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              &times;
-            </button>
-            <h2 className="text-2xl font-bold text-roTeal mb-4">
-              Make a Donation
-            </h2>
-            <p className="text-roTeal text-lg mb-4">
-              Enter the amount you would like to donate (in ETH):
-            </p>
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="Enter amount in ETH"
-                value={inputValue}
-                onChange={handleInputChange}
-                onKeyDown={preventInvalidInput}
-                min="0.001"
-                step="any"
-                className={`w-full px-4 py-2 font-bold border rounded-md text-center focus:outline-none no-arrows ${
-                  !isValid && inputValue !== ""
-                    ? "border-2 border-red-500 text-red-500"
-                    : "text-roTeal focus:ring-2 focus:ring-roSeaGreen"
-                }`}
-              />
-              {!isValid && inputValue !== "" && (
-                <p className="text-red-500 text-sm">
-                  Please enter a value greater than 0.
-                </p>
-              )}
-            </div>
+              <button
+                className="absolute top-2 right-2 text-roTeal font-bold text-xl hover:text-roSeaGreen"
+                onClick={handleCloseModal}
+              >
+                &times;
+              </button>
+              <h2 className="text-2xl font-bold text-roTeal mb-4">
+                Make a Donation
+              </h2>
+              <p className="text-roTeal text-lg mb-4">
+                Enter the amount you would like to donate (in ETH):
+              </p>
+              <div className="mb-4">
+                <input
+                  type="text"
+                  placeholder="Enter amount in ETH"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyDown={preventInvalidInput}
+                  min="0.001"
+                  step="any"
+                  className={`w-full px-4 py-2 font-bold border rounded-md text-center focus:outline-none no-arrows ${
+                    !isValid && inputValue !== ""
+                      ? "border-2 border-red-500 text-red-500"
+                      : "text-roTeal focus:ring-2 focus:ring-roSeaGreen"
+                  }`}
+                />
+                {!isValid && inputValue !== "" && (
+                  <p className="text-red-500 text-sm">
+                    Please enter a value greater than 0.
+                  </p>
+                )}
+              </div>
 
-            <Button
-              label="Donate"
-              variant="secondary"
-              onClick={() => handleDonate(campaignId)}
-              disabled={isButtonDisabled}
-            />
-          </div>
-        </div>
-      )}
+              <Button
+                label="Donate"
+                variant="secondary"
+                onClick={() => handleDonate(campaignId)}
+                disabled={isButtonDisabled}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

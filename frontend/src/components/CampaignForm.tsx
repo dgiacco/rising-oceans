@@ -154,7 +154,7 @@ const CampaignForm = () => {
               onChange={handleChange}
               required
               className={formInput}
-              maxLength={20}
+              maxLength={25}
             />
           </div>
           <div className="mb-4">

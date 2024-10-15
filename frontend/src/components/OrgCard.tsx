@@ -24,7 +24,7 @@ const OrgCard: React.FC<OrgCardProps> = ({
     // Add a slight delay before redirecting
     setTimeout(() => {
       router.push(`/${id}`);
-    }, 230); // 300ms delay, adjust as needed
+    }, 150); // 300ms delay, adjust as needed
   };
 
   const truncateDescription = (text: string, maxLength: number) => {

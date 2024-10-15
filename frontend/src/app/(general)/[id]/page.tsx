@@ -10,6 +10,8 @@ import Button from "@/components/Button";
 import SpinnerLoader from "@/components/SpinnerLoader";
 import DonationModal from "@/components/Modals/DonationModal";
 
+import { motion } from "framer-motion";
+
 const CampaignPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -43,6 +45,35 @@ const CampaignPage = () => {
 
   if (!campaign) return <></>;
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 1,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  const imageVariants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 1.2, ease: "easeOut" },
+    },
+  };
+
+  const contentVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1, delay: 0.3, ease: "easeOut" },
+    },
+  };
+
   return (
     <>
       <DonationModal
@@ -50,9 +81,17 @@ const CampaignPage = () => {
         closeModal={() => setIsModalOpen(false)}
         id={id}
       />
-      <div className="max-w-5xl mx-auto p-6 text-white">
+      <motion.div
+        className="max-w-5xl mx-auto p-6 text-white"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="rounded-lg overflow-hidden">
+          <motion.div
+            className="rounded-lg overflow-hidden"
+            variants={imageVariants}
+          >
             <Image
               src={campaignImg}
               alt={campaign.title}
@@ -60,35 +99,68 @@ const CampaignPage = () => {
               height={500}
               priority
             />
-          </div>
-          <div>
-            <h1 className="text-4xl font-bold text-roAquaBlue">
+          </motion.div>
+          <motion.div variants={contentVariants}>
+            <motion.h1
+              className="text-4xl font-bold text-roAquaBlue"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
               {campaign.title}
-            </h1>
-            <p className="text-lg mt-2">{campaign.description}</p>
+            </motion.h1>
+            <motion.p
+              className="text-lg mt-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+            >
+              {campaign.description}
+            </motion.p>
 
-            <div className="mt-4">
+            <motion.div
+              className="mt-4"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+            >
               <h2 className="text-lg font-bold">Target Amount</h2>
               <p>{ethTargetAmount} ETH</p>
-            </div>
+            </motion.div>
 
-            <div className="mt-4">
+            <motion.div
+              className="mt-4"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 1.1 }}
+            >
               <h2 className="text-lg font-bold">Amount Collected</h2>
               <p>{ethCollectedAmount} ETH</p>
-            </div>
+            </motion.div>
 
-            <div className="my-4">
+            <motion.div
+              className="my-4"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 1.3 }}
+            >
               <h2 className="text-lg font-bold">Deadline</h2>
               <p>{new Date(campaign.deadline * 1000).toLocaleDateString()}</p>
-            </div>
-            <Button
-              label="Donate Now"
-              variant="primary"
-              onClick={handleModal}
-            />
-          </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.5 }}
+            >
+              <Button
+                label="Donate Now"
+                variant="primary"
+                onClick={handleModal}
+              />
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

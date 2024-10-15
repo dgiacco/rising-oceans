@@ -25,6 +25,11 @@ const OrgCard: React.FC<OrgCardProps> = ({
     router.push(`/${id}`);
   };
 
+  const truncateDescription = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + "...";
+  };
+
   return (
     <motion.div
       className="mx-auto bg-transparent border border-2 border-roAquaBlue rounded-lg backdrop-blur w-72 h-[28rem] flex flex-col justify-between relative overflow-hidden"
@@ -52,13 +57,13 @@ const OrgCard: React.FC<OrgCardProps> = ({
           className="text-xl font-bold text-roAquaBlue text-center"
           whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
         >
-          {title}
+          {truncateDescription(title, 60)}
         </motion.h1>
         <motion.p
           className="text-roSeaGreen mt-2 text-center"
           whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
         >
-          {description}
+          {truncateDescription(description, 60)}
         </motion.p>
         <div className="mt-auto">
           <Button

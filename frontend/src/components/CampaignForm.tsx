@@ -67,9 +67,13 @@ const CampaignForm = () => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
+    const { name, value } = e.target;
     setNewCampaign((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]:
+        name === "title" || name === "description"
+          ? value.charAt(0).toUpperCase() + value.slice(1)
+          : value,
     }));
   };
 
@@ -82,14 +86,11 @@ const CampaignForm = () => {
 
     setIsButtonDisabled(true);
 
-    const title = newCampaign.title;
-    const description = newCampaign.description;
-    const target = newCampaign.target;
-    const deadline = newCampaign.deadline;
-    const image = newCampaign.image;
+    const { title, description, target, deadline, image } = newCampaign;
 
     if (!title || !description || !target || !deadline || !image) {
       console.error("Please fill all fields.");
+      setIsButtonDisabled(false);
       return;
     }
 
@@ -112,7 +113,7 @@ const CampaignForm = () => {
       }
       resetForm();
     } catch (error) {
-      console.error("Error creating campaing", error);
+      console.error("Error creating campaign", error);
       setIsButtonDisabled(false);
     }
   };
@@ -131,7 +132,7 @@ const CampaignForm = () => {
       <SuccessModal
         isOpen={isTxConfirmed}
         title="Campaign created!"
-        message="Your campaign was created succesfully. You can view the details on Etherscan"
+        message="Your campaign was created successfully. You can view the details on Etherscan"
         txHash={hash}
         closeModal={() => handleCloseModal()}
       />
@@ -153,6 +154,7 @@ const CampaignForm = () => {
               onChange={handleChange}
               required
               className={formInput}
+              maxLength={20}
             />
           </div>
           <div className="mb-4">

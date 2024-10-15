@@ -148,7 +148,7 @@ const DonationModal: React.FC<DonationModalProps> = ({
               label="Donate"
               variant="secondary"
               onClick={() => handleDonate(campaignId)}
-              disabled={isButtonDisabled}
+              disabled={isButtonDisabled || !isValid}
             />
           </div>
         </div>

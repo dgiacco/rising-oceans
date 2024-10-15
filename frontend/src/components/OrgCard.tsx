@@ -56,8 +56,8 @@ const OrgCard: React.FC<OrgCardProps> = ({
             <Image
               src={cardImg}
               alt={title}
-              width={500}
-              height={500}
+              width={240}
+              height={240}
               priority
             />
           </motion.div>

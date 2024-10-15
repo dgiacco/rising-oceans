@@ -47,7 +47,7 @@ const OrgCard: React.FC<OrgCardProps> = ({
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.3 }}
         >
-          <div className="w-60 h-60 mb-4 rounded-t-lg overflow-hidden flex items-center justify-center">
+          <div className="rounded-lg overflow-hidden">
             <Image
               src={cardImg}
               alt={title}

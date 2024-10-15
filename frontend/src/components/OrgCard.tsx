@@ -32,19 +32,45 @@ const OrgCard: React.FC<OrgCardProps> = ({
   return (
     <motion.div
       className="mx-auto bg-transparent border border-2 border-roAquaBlue rounded-lg backdrop-blur w-82 h-[24rem] flex flex-col justify-between relative overflow-hidden cursor-pointer"
-      style={{ width: "20.5rem" }} // This ensures a fixed width of 82 (20.5rem)
+      style={{ width: "20.5rem" }}
       whileHover={{
         scale: 1.05,
         transition: { duration: 0.3, ease: "easeInOut" },
       }}
-      onClick={handleCardClick}
+      whileTap={{
+        scale: 0.95,
+        transition: { duration: 0.1 },
+      }}
+      onClick={() => {
+        handleCardClick();
+      }}
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -50 }}
+      transition={{
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+        duration: 0.8,
+      }}
+      layout
     >
-      <div className="flex flex-col items-center p-4 h-full justify-between z-10">
+      <motion.div
+        className="flex flex-col items-center p-4 h-full justify-between z-10"
+        whileTap={{
+          scale: 0.95,
+          rotateY: 180,
+          transition: { duration: 0.5, ease: "easeInOut" },
+        }}
+      >
         <motion.div
           className={`w-60 h-60 mb-4 rounded-t-lg overflow-hidden ${
             isTurtle ? "flex items-center justify-center" : ""
           }`}
           whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
         >
           <Image
             src={cardImg}
@@ -60,28 +86,34 @@ const OrgCard: React.FC<OrgCardProps> = ({
           <motion.h1
             className="text-xl font-bold text-roAquaBlue text-center"
             whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
           >
             {truncateDescription(title, 60)}
           </motion.h1>
           <motion.p
             className="text-roSeaGreen mt-2 text-center"
             whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
           >
             {truncateDescription(description, 60)}
           </motion.p>
         </div>
-      </div>
+      </motion.div>
       <motion.div
         className="absolute inset-0 bg-gradient-to-b from-transparent to-roAquaBlue opacity-0"
         initial={{ opacity: 0 }}
         whileHover={{ opacity: 0.2 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.5 }}
       />
       <motion.div
         className="absolute -bottom-10 -right-10 w-20 h-20 bg-roSeaGreen rounded-full opacity-30"
         initial={{ scale: 0 }}
         whileHover={{ scale: 1 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.7 }}
       />
     </motion.div>
   );

@@ -18,7 +18,6 @@ const OrgCard: React.FC<OrgCardProps> = ({
   const router = useRouter();
 
   const cardImg = imageSrc === "turtle" ? "/turtle-img.png" : "/coral-img.png";
-  const isTurtle = imageSrc === "turtle";
 
   const handleCardClick = () => {
     router.push(`/${id}`);
@@ -49,9 +48,7 @@ const OrgCard: React.FC<OrgCardProps> = ({
           transition={{ delay: 0.2, duration: 0.3 }}
         >
           <motion.div
-            className={`w-60 h-60 mb-4 rounded-t-lg overflow-hidden ${
-              isTurtle ? "flex items-center justify-center" : ""
-            }`}
+            className="w-60 h-60 mb-4 rounded-t-lg overflow-hidden flex items-center justify-center"
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.3, duration: 0.3 }}
@@ -62,9 +59,6 @@ const OrgCard: React.FC<OrgCardProps> = ({
               width={500}
               height={500}
               priority
-              className={`${
-                isTurtle ? "object-contain" : "w-full object-cover"
-              }`}
             />
           </motion.div>
 

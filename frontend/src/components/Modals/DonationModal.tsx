@@ -22,8 +22,8 @@ const DonationModal: React.FC<DonationModalProps> = ({
   const campaignId = Number(id);
 
   const [inputValue, setInputValue] = useState("");
-  const [isValid, setIsValid] = useState(true);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isValid, setIsValid] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isTxPending, setIsTxPending] = useState(false);
   const [isTxSuccessful, setIsTxSuccessful] = useState(false);
   const [currentHash, setCurrentHash] = useState("");
@@ -40,10 +40,12 @@ const DonationModal: React.FC<DonationModalProps> = ({
     if (regex.test(value) || value === "") {
       setInputValue(value);
 
-      if (parseFloat(value) > 0 || value === "") {
+      if (parseFloat(value) > 0) {
         setIsValid(true);
+        setIsButtonDisabled(false);
       } else {
         setIsValid(false);
+        setIsButtonDisabled(true);
       }
     }
   };
@@ -132,12 +134,12 @@ const DonationModal: React.FC<DonationModalProps> = ({
                 min="0.001"
                 step="any"
                 className={`w-full px-4 py-2 font-bold border rounded-md text-center focus:outline-none no-arrows ${
-                  !isValid
+                  !isValid && inputValue !== ""
                     ? "border-2 border-red-500 text-red-500"
                     : "text-roTeal focus:ring-2 focus:ring-roSeaGreen"
                 }`}
               />
-              {!isValid && (
+              {!isValid && inputValue !== "" && (
                 <p className="text-red-500 text-sm">
                   Please enter a value greater than 0.
                 </p>
@@ -148,7 +150,7 @@ const DonationModal: React.FC<DonationModalProps> = ({
               label="Donate"
               variant="secondary"
               onClick={() => handleDonate(campaignId)}
-              disabled={isButtonDisabled || !isValid}
+              disabled={isButtonDisabled}
             />
           </div>
         </div>

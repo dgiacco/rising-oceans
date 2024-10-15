@@ -56,15 +56,6 @@ const CampaignPage = () => {
     },
   };
 
-  const imageVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 1.2, ease: "easeOut" },
-    },
-  };
-
   const contentVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -88,18 +79,20 @@ const CampaignPage = () => {
         animate="visible"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <motion.div
-            className="rounded-lg overflow-hidden"
-            variants={imageVariants}
-          >
+          <div className="rounded-lg overflow-hidden">
             <Image
               src={campaignImg}
               alt={campaign.title}
               width={500}
               height={500}
               priority
+              className={`${
+                campaign.image === "turtle"
+                  ? "object-contain"
+                  : "w-full object-cover"
+              }`}
             />
-          </motion.div>
+          </div>
           <motion.div variants={contentVariants}>
             <motion.h1
               className="text-4xl font-bold text-roAquaBlue"

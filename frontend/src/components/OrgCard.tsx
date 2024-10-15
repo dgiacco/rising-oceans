@@ -21,10 +21,9 @@ const OrgCard: React.FC<OrgCardProps> = ({
   const isTurtle = imageSrc === "turtle";
 
   const handleCardClick = () => {
-    // Add a slight delay before redirecting
     setTimeout(() => {
       router.push(`/${id}`);
-    }, 150); // 300ms delay, adjust as needed
+    }, 150);
   };
 
   const truncateDescription = (text: string, maxLength: number) => {
@@ -64,14 +63,10 @@ const OrgCard: React.FC<OrgCardProps> = ({
           transition: { duration: 0.5, ease: "easeInOut" },
         }}
       >
-        <motion.div
+        <div
           className={`w-60 h-60 mb-4 rounded-t-lg overflow-hidden ${
             isTurtle ? "flex items-center justify-center" : ""
           }`}
-          whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
         >
           <Image
             src={cardImg}
@@ -81,12 +76,11 @@ const OrgCard: React.FC<OrgCardProps> = ({
             priority
             className={`${isTurtle ? "object-contain" : "w-full object-cover"}`}
           />
-        </motion.div>
+        </div>
 
         <div className="mt-auto w-full">
           <motion.h1
             className="text-xl font-bold text-roAquaBlue text-center"
-            whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
@@ -95,7 +89,6 @@ const OrgCard: React.FC<OrgCardProps> = ({
           </motion.h1>
           <motion.p
             className="text-roSeaGreen mt-2 text-center"
-            whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}

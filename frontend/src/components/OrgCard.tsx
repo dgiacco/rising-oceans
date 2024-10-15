@@ -43,10 +43,9 @@ const OrgCard: React.FC<OrgCardProps> = ({
   };
 
   const contentVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      y: 0,
       transition: { duration: 1, delay: 0.3, ease: "easeOut" },
     },
   };
@@ -90,9 +89,9 @@ const OrgCard: React.FC<OrgCardProps> = ({
         <div className="mt-auto w-full">
           <motion.h1
             className="text-xl font-bold text-roAquaBlue text-center"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
           >
             {truncateDescription(title, 60)}
           </motion.h1>
@@ -100,7 +99,7 @@ const OrgCard: React.FC<OrgCardProps> = ({
             className="text-roSeaGreen mt-2 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
           >
             {truncateDescription(description, 60)}
           </motion.p>

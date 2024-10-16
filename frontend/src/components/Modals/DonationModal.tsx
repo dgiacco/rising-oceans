@@ -156,10 +156,10 @@ const DonationModal: React.FC<DonationModalProps> = ({
                   onKeyDown={preventInvalidInput}
                   min="0.001"
                   step="any"
-                  className={`w-full px-4 py-2 font-bold border rounded-md text-center focus:outline-none no-arrows ${
+                  className={`w-full px-4 py-2 font-bold bg-roAquaBlue/30 border border-2 rounded-md text-center focus:outline-none no-arrows ${
                     !isValid && inputValue !== ""
                       ? "border-2 border-red-500 text-red-500"
-                      : "text-roTeal focus:ring-2 focus:ring-roSeaGreen"
+                      : "text-roTeal border-roSeaGreen"
                   }`}
                 />
                 {!isValid && inputValue !== "" && (

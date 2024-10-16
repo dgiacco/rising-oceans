@@ -122,14 +122,14 @@ const DonationModal: React.FC<DonationModalProps> = ({
       <AnimatePresence>
         {!isTxPending && !isTxSuccessful && (isOpen || isClosing) && (
           <motion.div
-            className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50"
+            className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 px-4 sm:px-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
             <motion.div
-              className="relative bg-sky-200 p-6 rounded-md shadow-lg max-w-sm text-center"
+              className="relative bg-sky-200 p-6 rounded-md shadow-lg w-full max-w-sm text-center"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}

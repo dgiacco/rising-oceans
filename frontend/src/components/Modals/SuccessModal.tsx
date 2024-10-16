@@ -25,7 +25,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50"
+          className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 px-4 sm:px-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

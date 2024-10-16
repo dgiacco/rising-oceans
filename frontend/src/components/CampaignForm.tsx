@@ -235,6 +235,9 @@ const CampaignForm = () => {
               min={new Date().toISOString().split("T")[0]}
               style={{
                 colorScheme: "dark",
+                WebkitAppearance: "none",
+                MozAppearance: "none",
+                appearance: "none",
               }}
             />
           </div>

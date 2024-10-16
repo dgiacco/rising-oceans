@@ -52,13 +52,19 @@ const OrgCard: React.FC<OrgCardProps> = ({
             initial="hidden"
             animate="visible"
           >
-            <Image
-              src={cardImg}
-              alt={title}
-              width={240}
-              height={240}
-              priority
-            />
+            <motion.div
+              initial={{ opacity: 0, scale: 1.2 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <Image
+                src={cardImg}
+                alt={title}
+                width={240}
+                height={240}
+                priority
+              />
+            </motion.div>
           </motion.div>
 
           <motion.div

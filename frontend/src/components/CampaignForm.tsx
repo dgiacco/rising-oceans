@@ -37,6 +37,7 @@ const CampaignForm = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isTxPending, setIsTxPending] = useState(false);
   const [isTxConfirmed, setIsTxConfirmed] = useState(false);
+  const [isTargetValid, setIsTargetValid] = useState(true);
 
   const router = useRouter();
 
@@ -81,13 +82,22 @@ const CampaignForm = () => {
     >
   ) => {
     const { name, value } = e.target;
-    setNewCampaign((prev) => ({
-      ...prev,
-      [name]:
-        name === "title" || name === "description"
-          ? value.charAt(0).toUpperCase() + value.slice(1)
-          : value,
-    }));
+    if (name === "target") {
+      // Limit to 3 decimal places
+      const regex = /^\d*\.?\d{0,3}$/;
+      if (regex.test(value)) {
+        setNewCampaign((prev) => ({ ...prev, [name]: value }));
+        setIsTargetValid(parseFloat(value) > 0);
+      }
+    } else {
+      setNewCampaign((prev) => ({
+        ...prev,
+        [name]:
+          name === "title" || name === "description"
+            ? value.charAt(0).toUpperCase() + value.slice(1)
+            : value,
+      }));
+    }
   };
 
   const resetForm = () => {
@@ -134,6 +144,8 @@ const CampaignForm = () => {
   const inputLabel = "text-roSeaGreen mt-2 text-center";
   const formInput =
     "mt-1 p-2 bg-roAquaBlue/20 border border-2 border-roSeaGreen rounded-lg w-full text-roAquaBlue font-bold";
+  const targetInput =
+    "mt-1 p-2 bg-roAquaBlue/20 border border-2 rounded-lg w-full font-bold";
 
   const handleCloseModal = () => {
     setIsTxConfirmed(false);
@@ -194,10 +206,19 @@ const CampaignForm = () => {
               value={newCampaign.target}
               onChange={handleChange}
               required
-              className={formInput}
-              min="0"
-              step="0.000000000000000001"
+              className={`${targetInput} [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none focus:outline-none [&::-webkit-inner-spin-button]:appearance-none ${
+                !isTargetValid && newCampaign.target !== ""
+                  ? "border-2 border-red-500 text-red-500"
+                  : "border-roSeaGreen text-roAquaBlue"
+              }`}
+              min="0.001"
+              step="0.001"
             />
+            {!isTargetValid && newCampaign.target !== "" && (
+              <p className="text-red-500 text-sm">
+                Please enter a value greater than 0.
+              </p>
+            )}
           </div>
           <div className="mb-4">
             <label htmlFor="deadline" className={inputLabel}>

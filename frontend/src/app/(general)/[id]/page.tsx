@@ -69,7 +69,7 @@ const CampaignPage = () => {
         id={id}
       />
       {!isPageLoaded && (
-        <div className="flex items-center justify-center h-screen">
+        <div className="pt-16">
           <SpinnerLoader />
         </div>
       )}

@@ -14,7 +14,7 @@ import { motion } from "framer-motion";
 
 const CampaignPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   const { id } = useParams();
 
@@ -68,8 +68,15 @@ const CampaignPage = () => {
         closeModal={() => setIsModalOpen(false)}
         id={id}
       />
+      {!isPageLoaded && (
+        <div className="flex items-center justify-center h-screen">
+          <SpinnerLoader />
+        </div>
+      )}
       <motion.div
-        className="max-w-5xl mx-auto p-6 text-white"
+        className={`max-w-5xl mx-auto p-6 text-white ${
+          isPageLoaded ? "" : "hidden"
+        }`}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -87,74 +94,68 @@ const CampaignPage = () => {
                   ? "object-contain"
                   : "w-full object-cover"
               }`}
-              onLoad={() => setIsImageLoaded(true)}
+              onLoad={() => setIsPageLoaded(true)}
             />
           </div>
-          {isImageLoaded ? (
-            <motion.div variants={contentVariants}>
-              <motion.h1
-                className="text-4xl font-bold text-roAquaBlue"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-              >
-                {campaign.title}
-              </motion.h1>
-              <motion.p
-                className="text-lg mt-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.7 }}
-              >
-                {campaign.description}
-              </motion.p>
+          <motion.div variants={contentVariants}>
+            <motion.h1
+              className="text-4xl font-bold text-roAquaBlue"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
+              {campaign.title}
+            </motion.h1>
+            <motion.p
+              className="text-lg mt-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+            >
+              {campaign.description}
+            </motion.p>
 
-              <motion.div
-                className="mt-4"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.9 }}
-              >
-                <h2 className="text-lg font-bold">Target Amount</h2>
-                <p>{ethTargetAmount} ETH</p>
-              </motion.div>
-
-              <motion.div
-                className="mt-4"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 1.1 }}
-              >
-                <h2 className="text-lg font-bold">Amount Collected</h2>
-                <p>{ethCollectedAmount} ETH</p>
-              </motion.div>
-
-              <motion.div
-                className="my-4"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 1.3 }}
-              >
-                <h2 className="text-lg font-bold">Deadline</h2>
-                <p>{new Date(campaign.deadline * 1000).toLocaleDateString()}</p>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.5 }}
-              >
-                <Button
-                  label="Donate Now"
-                  variant="primary"
-                  onClick={handleModal}
-                />
-              </motion.div>
+            <motion.div
+              className="mt-4"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+            >
+              <h2 className="text-lg font-bold">Target Amount</h2>
+              <p>{ethTargetAmount} ETH</p>
             </motion.div>
-          ) : (
-            <div className="flex items-center justify-center">
-              <SpinnerLoader />
-            </div>
-          )}
+
+            <motion.div
+              className="mt-4"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 1.1 }}
+            >
+              <h2 className="text-lg font-bold">Amount Collected</h2>
+              <p>{ethCollectedAmount} ETH</p>
+            </motion.div>
+
+            <motion.div
+              className="my-4"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 1.3 }}
+            >
+              <h2 className="text-lg font-bold">Deadline</h2>
+              <p>{new Date(campaign.deadline * 1000).toLocaleDateString()}</p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.5 }}
+            >
+              <Button
+                label="Donate Now"
+                variant="primary"
+                onClick={handleModal}
+              />
+            </motion.div>
+          </motion.div>
         </div>
       </motion.div>
     </>

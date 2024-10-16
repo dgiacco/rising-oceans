@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import SpinnerLoader from "./SpinnerLoader";
+import { useState } from "react";
 
 interface OrgCardProps {
   id: number;
@@ -16,6 +20,7 @@ const OrgCard: React.FC<OrgCardProps> = ({
   description,
 }) => {
   const router = useRouter();
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const cardImg = imageSrc === "turtle" ? "/turtle-img.png" : "/coral-img.png";
 
@@ -52,13 +57,28 @@ const OrgCard: React.FC<OrgCardProps> = ({
             initial="hidden"
             animate="visible"
           >
-            <Image
-              src={cardImg}
-              alt={title}
-              width={240}
-              height={240}
-              priority
-            />
+            {!imageLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <SpinnerLoader />
+              </div>
+            )}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{
+                opacity: imageLoaded ? 1 : 0,
+                scale: imageLoaded ? 1 : 0.8,
+              }}
+              transition={{ duration: 0.5, ease: "easeIn" }}
+            >
+              <Image
+                src={cardImg}
+                alt={title}
+                width={240}
+                height={240}
+                priority
+                onLoad={() => setImageLoaded(true)}
+              />
+            </motion.div>
           </motion.div>
 
           <motion.div

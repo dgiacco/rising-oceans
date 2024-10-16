@@ -4,43 +4,23 @@ import { useGetActiveCampaigns } from "@/app/hooks/useGetActiveCampaigns";
 import OrgCard from "./OrgCard";
 import { Campaign } from "@/app/types/Campaign";
 import SpinnerLoader from "./SpinnerLoader";
-import { useEffect } from "react";
-import { useState } from "react";
-
-type Card = {
-  id: number;
-  title: string;
-  description: string;
-  imageSrc: string;
-};
+import { useState, useEffect } from "react";
 
 const acceptedImages = ["turtle", "coral"]; //temporary fix for the campaign created without the form
 
 const OrgCardList = () => {
   const { campaigns, isLoading, isError } = useGetActiveCampaigns();
-  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [isCoralImageLoaded, setIsCoralImageLoaded] = useState(false);
 
   useEffect(() => {
-    if (!isLoading && !isError && campaigns) {
-      const imageUrls = acceptedImages.map((img) =>
-        img === "turtle" ? "/turtle-img.png" : "/coral-img.png"
-      );
-      const imagePromises = imageUrls.map((url) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = resolve;
-          img.onerror = reject;
-          img.src = url;
-        });
-      });
-
-      Promise.all(imagePromises)
-        .then(() => setImagesLoaded(true))
-        .catch((error) => console.error("Error loading images:", error));
+    if (campaigns && campaigns.length > 0) {
+      const coralImage = new Image();
+      coralImage.src = "/coral-img.png";
+      coralImage.onload = () => setIsCoralImageLoaded(true);
     }
-  }, [campaigns, isLoading, isError]);
+  }, [campaigns]);
 
-  if (isLoading || !imagesLoaded)
+  if (isLoading || !isCoralImageLoaded)
     return (
       <div className="pt-16">
         <SpinnerLoader />
@@ -59,7 +39,7 @@ const OrgCardList = () => {
     isActive: campaign.deadline > Math.floor(Date.now() / 1000),
   }));
 
-  const cards: Card[] =
+  const cards =
     activeCampaigns?.map((campaign: Campaign) => ({
       id: campaign.id,
       title: campaign.title,

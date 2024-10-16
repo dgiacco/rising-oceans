@@ -251,8 +251,7 @@ const CampaignForm = () => {
               value={newCampaign.image}
               onChange={handleChange}
               required
-              className={`${formInput}`}
-              style={{ minHeight: "46px" }}
+              className={formInput}
             >
               <option value="turtle">Turtle</option>
               <option value="coral">Coral</option>

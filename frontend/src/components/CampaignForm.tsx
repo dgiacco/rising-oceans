@@ -231,7 +231,7 @@ const CampaignForm = () => {
               value={newCampaign.deadline}
               onChange={handleChange}
               required
-              className={`${formInput} [&::-webkit-calendar-picker-indicator]:bg-roSeaGreen [&::-webkit-calendar-picker-indicator]:rounded-lg [&::-webkit-calendar-picker-indicator]:p-1 [&::-webkit-calendar-picker-indicator]:cursor-pointer`}
+              className={`${formInput} [&::-webkit-calendar-picker-indicator]:cursor-pointer`}
               min={new Date().toISOString().split("T")[0]}
               style={{
                 colorScheme: "dark",

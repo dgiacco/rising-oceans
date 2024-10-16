@@ -133,7 +133,7 @@ const CampaignForm = () => {
 
   const inputLabel = "text-roSeaGreen mt-2 text-center";
   const formInput =
-    "mt-1 p-2 border border-2 border-roSeaGreen rounded-lg w-full text-roTeal font-bold";
+    "mt-1 p-2 bg-roAquaBlue/20 border border-2 border-roSeaGreen rounded-lg w-full text-roAquaBlue font-bold";
 
   const handleCloseModal = () => {
     setIsTxConfirmed(false);

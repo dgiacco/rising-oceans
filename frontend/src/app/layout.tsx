@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import Bubbles from "@/components/Bubbles";
+import dynamic from "next/dynamic";
+
+const Bubbles = dynamic(() => import("@/components/Bubbles"), { ssr: false });
 
 export const metadata: Metadata = {
   title: "Rising Oceans",
@@ -17,9 +19,9 @@ const quicksand = Quicksand({
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={`${quicksand.className} underwater`}>

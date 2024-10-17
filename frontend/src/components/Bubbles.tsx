@@ -4,46 +4,51 @@ import React, { useState, useEffect } from "react";
 
 import "../app/styles/bubbles.css";
 
-function random(min: number, max: number) {
-  return Math.random() * (max - min) + min;
-}
-
-const Bubbles = () => {
-  const [bubbleCount, setBubbleCount] = useState(30);
+const Bubbles: React.FC = () => {
+  const [bubbles, setBubbles] = useState<React.ReactNode[]>([]);
 
   useEffect(() => {
-    const handleResize = () => {
-      setBubbleCount(window.innerWidth <= 768 ? 15 : 30);
+    const generateBubbles = () => {
+      const isMobile = window.matchMedia("(max-width: 640px)").matches;
+      const bubbleCount = isMobile ? 15 : 30;
+
+      return Array.from({ length: bubbleCount }, (_, i) => {
+        const size = Math.random() * 30 + 10;
+        const left = Math.random() * 100;
+        const animationDuration = Math.random() * 5 + 8;
+        const animationDelay = Math.random() * 5;
+
+        return (
+          <div
+            key={i}
+            className="bubble"
+            style={{
+              width: `${size}px`,
+              height: `${size}px`,
+              left: `${left}%`,
+              animationDuration: `${animationDuration}s`,
+              animationDelay: `${animationDelay}s`,
+            }}
+          />
+        );
+      });
     };
 
-    handleResize(); // Set initial bubble count
+    const handleResize = () => {
+      setBubbles(generateBubbles());
+    };
+
+    // Initial render
+    handleResize();
+
+    // Add event listener for window resize
     window.addEventListener("resize", handleResize);
 
+    // Cleanup
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const bubbles = Array.from({ length: bubbleCount }).map((_, index) => {
-    const size = random(15, 50); // Random bubble size between 20px and 60px
-    const left = random(0, 100); // Random horizontal position between 0% and 100%
-    const duration = random(8, 15); // Random animation duration between 8s and 15s
-    const delay = random(0, 5); // Random animation delay between 0s and 5s
-
-    return (
-      <div
-        key={index}
-        className="bubble"
-        style={{
-          width: size,
-          height: size,
-          left: `${left}%`,
-          animationDuration: `${duration}s`,
-          animationDelay: `${delay}s`,
-        }}
-      />
-    );
-  });
-
-  return <>{bubbles}</>;
+  return <div className="bubbles">{bubbles}</div>;
 };
 
 export default Bubbles;

@@ -16,7 +16,10 @@ export function useGetActiveCampaigns() {
         setIsLoading(true);
         setIsError(false);
 
-        const provider = new ethers.BrowserProvider(window.ethereum);
+        // Use a public provider instead of relying on the user's wallet
+        const provider = new ethers.JsonRpcProvider(
+          process.env.NEXT_PUBLIC_RPC_URL
+        );
         const contract = new ethers.Contract(
           contractAddress,
           contractABI,

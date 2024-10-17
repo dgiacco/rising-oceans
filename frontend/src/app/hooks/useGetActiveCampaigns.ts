@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
+import { useAccount } from "wagmi";
 import { contractABI, contractAddress } from "../utils/contractInfo";
 import { Campaign } from "../types/Campaign";
-
-// wagmi useReadContract was not working properly so I use ehters.js
 
 export function useGetActiveCampaigns() {
   const [campaigns, setCampaigns] = useState<Campaign[] | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const { isConnected } = useAccount();
 
   useEffect(() => {
     const fetchCampaigns = async () => {
@@ -16,17 +16,34 @@ export function useGetActiveCampaigns() {
         setIsLoading(true);
         setIsError(false);
 
-        // Use a public provider instead of relying on the user's wallet
-        const provider = new ethers.JsonRpcProvider(
-          process.env.NEXT_PUBLIC_RPC_URL
-        );
+        console.log("NEXT_PUBLIC_RPC_URL:", process.env.NEXT_PUBLIC_RPC_URL);
+
+        let provider;
+        if (isConnected && window.ethereum) {
+          provider = new ethers.BrowserProvider(window.ethereum);
+          console.log("Using BrowserProvider");
+        } else {
+          if (!process.env.NEXT_PUBLIC_RPC_URL) {
+            throw new Error("NEXT_PUBLIC_RPC_URL is not set");
+          }
+          provider = new ethers.JsonRpcProvider(
+            process.env.NEXT_PUBLIC_RPC_URL
+          );
+          console.log(
+            "Using JsonRpcProvider with URL:",
+            process.env.NEXT_PUBLIC_RPC_URL
+          );
+        }
+
         const contract = new ethers.Contract(
           contractAddress,
           contractABI,
           provider
         );
 
+        console.log("Fetching campaigns...");
         const data = await contract.getCampaigns();
+        console.log("Campaigns fetched:", data);
 
         const campaignsData = data
           .map((campaign: any, index: number) => ({
@@ -55,7 +72,7 @@ export function useGetActiveCampaigns() {
     };
 
     fetchCampaigns();
-  }, []);
+  }, [isConnected]);
 
   return {
     campaigns,

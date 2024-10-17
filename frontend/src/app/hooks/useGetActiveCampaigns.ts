@@ -21,16 +21,11 @@ export function useGetActiveCampaigns() {
         let provider;
         if (isConnected && window.ethereum) {
           provider = new ethers.BrowserProvider(window.ethereum);
-          console.log("Using BrowserProvider");
         } else {
           if (!process.env.NEXT_PUBLIC_RPC_URL) {
             throw new Error("NEXT_PUBLIC_RPC_URL is not set");
           }
           provider = new ethers.JsonRpcProvider(
-            process.env.NEXT_PUBLIC_RPC_URL
-          );
-          console.log(
-            "Using JsonRpcProvider with URL:",
             process.env.NEXT_PUBLIC_RPC_URL
           );
         }
@@ -41,9 +36,7 @@ export function useGetActiveCampaigns() {
           provider
         );
 
-        console.log("Fetching campaigns...");
         const data = await contract.getCampaigns();
-        console.log("Campaigns fetched:", data);
 
         const campaignsData = data
           .map((campaign: any, index: number) => ({

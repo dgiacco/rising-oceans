@@ -9,6 +9,7 @@ import { useCreateCampaign } from "@/app/hooks/useCreateCampaign";
 import Button from "./Button";
 import TxModal from "./Modals/TxModal";
 import SuccessModal from "./Modals/SuccessModal";
+import ConnectWalletModal from "./Modals/ConnectWalletModal";
 
 type NewCampaign = {
   title: string;
@@ -19,7 +20,7 @@ type NewCampaign = {
 };
 
 const CampaignForm = () => {
-  const { address: owner } = useAccount();
+  const { address: owner, isConnected } = useAccount();
   const { createCampaign, isConfirming, isConfirmed, isRejected, hash } =
     useCreateCampaign();
 
@@ -38,6 +39,7 @@ const CampaignForm = () => {
   const [isTxPending, setIsTxPending] = useState(false);
   const [isTxConfirmed, setIsTxConfirmed] = useState(false);
   const [isTargetValid, setIsTargetValid] = useState(true);
+  const [showConnectWalletModal, setShowConnectWalletModal] = useState(false);
 
   const router = useRouter();
 
@@ -76,6 +78,12 @@ const CampaignForm = () => {
     setIsButtonDisabled(!isFormValid);
   }, [newCampaign]);
 
+  useEffect(() => {
+    if (isConnected) {
+      setShowConnectWalletModal(false);
+    }
+  }, [isConnected]);
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -107,37 +115,48 @@ const CampaignForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    setIsButtonDisabled(true);
-
-    const { title, description, target, deadline, image } = newCampaign;
-
-    if (!title || !description || !target || !deadline || !image) {
-      console.error("Please fill all fields.");
-      setIsButtonDisabled(false);
+    if (!isConnected) {
+      setShowConnectWalletModal(true);
       return;
     }
 
-    // Convert ETH target to Wei
-    const targetInWei = ethers.parseEther(target);
-
-    // Convert deadline to timestamp
-    const deadlineTimestamp = Math.floor(new Date(deadline).getTime() / 1000);
-
+    setIsButtonDisabled(true);
     try {
-      if (owner) {
-        await createCampaign(
-          owner,
-          title,
-          description,
-          targetInWei,
-          deadlineTimestamp,
-          image
-        );
+      const { title, description, target, deadline, image } = newCampaign;
+
+      if (!title || !description || !target || !deadline || !image) {
+        console.error("Please fill all fields.");
+        setIsButtonDisabled(false);
+        return;
       }
-      resetForm();
+
+      // Convert ETH target to Wei
+      const targetInWei = ethers.parseEther(target);
+
+      // Convert deadline to timestamp
+      const deadlineTimestamp = Math.floor(new Date(deadline).getTime() / 1000);
+
+      try {
+        if (owner) {
+          await createCampaign(
+            owner,
+            title,
+            description,
+            targetInWei,
+            deadlineTimestamp,
+            image
+          );
+        }
+        resetForm();
+      } catch (error) {
+        console.error("Error creating campaign", error);
+        setIsButtonDisabled(false);
+      }
     } catch (error) {
-      console.error("Error creating campaign", error);
+      console.error("Error creating campaign:", error);
+    } finally {
       setIsButtonDisabled(false);
+      setIsTxPending(false);
     }
   };
 
@@ -149,6 +168,7 @@ const CampaignForm = () => {
 
   const handleCloseModal = () => {
     setIsTxConfirmed(false);
+    setShowConnectWalletModal(false);
     router.push("/home");
   };
 
@@ -162,6 +182,10 @@ const CampaignForm = () => {
         closeModal={() => handleCloseModal()}
       />
       <TxModal isOpen={isTxPending} />
+      <ConnectWalletModal
+        isOpen={showConnectWalletModal}
+        closeModal={() => setShowConnectWalletModal(false)}
+      />
       <div className="max-w-md mx-auto my-8 p-4 border border-2 border-roAquaBlue rounded-lg bg-transparent backdrop-blur">
         <h2 className="text-xl font-bold text-roAquaBlue text-center">
           Create a New Campaign

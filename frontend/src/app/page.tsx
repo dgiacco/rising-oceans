@@ -1,39 +1,51 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
-import { redirect } from "../../node_modules/next/navigation";
-
 import ConnectCard from "@/components/ConnectCard";
 import WaveLoader from "@/components/WaveLoader";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
-  const [hasCheckedConnection, setHasCheckedConnection] = useState(false);
-
+  const [proceedAsGuest, setProceedAsGuest] = useState(false);
   const { isConnected } = useAccount();
+  const router = useRouter();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-      setHasCheckedConnection(true);
     }, 5000);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    if (isConnected && hasCheckedConnection) {
-      redirect("/home");
+    if (!isLoading) {
+      if (isConnected || proceedAsGuest) {
+        router.push("/home");
+      }
     }
-  }, [isConnected, hasCheckedConnection]);
+  }, [isLoading, isConnected, proceedAsGuest, router]);
 
-  return (
-    <main className="flex items-center justify-center min-h-screen">
-      {isLoading && !hasCheckedConnection ? (
+  const handleProceedAsGuest = () => {
+    setProceedAsGuest(true);
+  };
+
+  if (isLoading) {
+    return (
+      <main className="flex items-center justify-center min-h-screen">
         <WaveLoader />
-      ) : !isConnected ? (
-        <ConnectCard />
-      ) : null}
-    </main>
-  );
+      </main>
+    );
+  }
+
+  if (!isConnected && !proceedAsGuest) {
+    return (
+      <main className="flex items-center justify-center min-h-screen">
+        <ConnectCard onContinue={handleProceedAsGuest} />
+      </main>
+    );
+  }
+
+  return null;
 }

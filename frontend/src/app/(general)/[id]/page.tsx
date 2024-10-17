@@ -3,22 +3,33 @@
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { ethers } from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import { motion } from "framer-motion";
 
 import { useGetActiveCampaigns } from "@/app/hooks/useGetActiveCampaigns";
 import Button from "@/components/Button";
 import SpinnerLoader from "@/components/SpinnerLoader";
 import DonationModal from "@/components/Modals/DonationModal";
-
-import { motion } from "framer-motion";
+import ConnectWalletModal from "@/components/Modals/ConnectWalletModal";
 
 const CampaignPage = () => {
+  const { address: owner, isConnected } = useAccount();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [showConnectWalletModal, setShowConnectWalletModal] = useState(false);
 
   const { id } = useParams();
 
   const { campaigns, isLoading, isError } = useGetActiveCampaigns();
+
+  useEffect(() => {
+    if (isConnected) {
+      setShowConnectWalletModal(false);
+    }
+  }, [isConnected]);
 
   const campaign = campaigns?.find((c) => c.id === Number(id));
   const campaignImg =
@@ -37,8 +48,28 @@ const CampaignPage = () => {
   const ethTargetAmount = ethers.formatEther(weiTargetAmount);
   const ethCollectedAmount = ethers.formatEther(weiCollectedAmount);
 
-  const handleModal = () => {
-    setIsModalOpen(true);
+  const handleModal = async () => {
+    setIsButtonDisabled(true);
+    if (!isConnected) {
+      setShowConnectWalletModal(true);
+      return;
+    }
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      if (signer) {
+        setIsModalOpen(true);
+      }
+    } catch (error) {
+      console.error("Error checking wallet connection:", error);
+    } finally {
+      setIsButtonDisabled(false);
+    }
+  };
+
+  const handleConnectWalletModal = () => {
+    setShowConnectWalletModal(false);
+    setIsButtonDisabled(false);
   };
 
   const containerVariants = {
@@ -67,6 +98,10 @@ const CampaignPage = () => {
         isOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
         id={id}
+      />
+      <ConnectWalletModal
+        isOpen={showConnectWalletModal}
+        closeModal={handleConnectWalletModal}
       />
       {!isPageLoaded && (
         <div className="pt-16">
@@ -153,6 +188,7 @@ const CampaignPage = () => {
                 label="Donate Now"
                 variant="primary"
                 onClick={handleModal}
+                disabled={isButtonDisabled}
               />
             </motion.div>
           </motion.div>

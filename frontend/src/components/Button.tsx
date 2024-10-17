@@ -16,7 +16,7 @@ const Button: React.FC<CommonButtonProps> = ({
   onClick,
 }) => {
   const baseStyles =
-    "inline-flex items-center justify-center px-4 py-2 rounded-md font-bold";
+    "inline-flex items-center justify-center px-4 py-2 rounded-xl font-bold";
 
   const primaryStyles = "bg-roAquaBlue text-roTeal";
   const secondaryStyles = "bg-roTeal text-white";

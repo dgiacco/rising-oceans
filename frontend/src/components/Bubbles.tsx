@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 
 import "../app/styles/bubbles.css";
 
@@ -7,7 +9,20 @@ function random(min: number, max: number) {
 }
 
 const Bubbles = () => {
-  const bubbles = Array.from({ length: 30 }).map((_, index) => {
+  const [bubbleCount, setBubbleCount] = useState(30);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setBubbleCount(window.innerWidth <= 768 ? 15 : 30);
+    };
+
+    handleResize(); // Set initial bubble count
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const bubbles = Array.from({ length: bubbleCount }).map((_, index) => {
     const size = random(15, 50); // Random bubble size between 20px and 60px
     const left = random(0, 100); // Random horizontal position between 0% and 100%
     const duration = random(8, 15); // Random animation duration between 8s and 15s
